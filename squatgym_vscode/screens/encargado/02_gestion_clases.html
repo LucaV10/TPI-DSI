@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <title>Gestión de Clases | SquatGym</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#4ae176",
+            "on-surface": "#151c27",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed-variant": "#004395",
+            "surface": "#f9f9ff",
+            "secondary-container": "#d6e0f3",
+            "inverse-primary": "#4ae176",
+            "on-primary-container": "#004b1e",
+            "tertiary-container": "#82abff",
+            "on-secondary-fixed-variant": "#3d4756",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#e2e8f8",
+            "error-container": "#ffdad6",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#001a42",
+            "primary-container": "#22c55e",
+            "secondary-fixed": "#d9e3f6",
+            "inverse-surface": "#2a313d",
+            "background": "#f9f9ff",
+            "secondary": "#555f6f",
+            "on-surface-variant": "#3d4a3d",
+            "on-background": "#151c27",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#002109",
+            "inverse-on-surface": "#ebf1ff",
+            "outline": "#6d7b6c",
+            "surface-variant": "#dce2f3",
+            "surface-container": "#e7eefe",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#dce2f3",
+            "on-primary-fixed-variant": "#005321",
+            "tertiary": "#005ac2",
+            "secondary-fixed-dim": "#bdc7d9",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#d3daea",
+            "primary-fixed": "#6bff8f",
+            "on-secondary-fixed": "#121c2a",
+            "outline-variant": "#bccbb9",
+            "surface-bright": "#f9f9ff",
+            "primary": "#006e2f",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#d8e2ff",
+            "surface-tint": "#006e2f",
+            "on-tertiary-container": "#003d88",
+            "tertiary-fixed-dim": "#adc6ff",
+            "surface-container-low": "#f0f3ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "xs": "4px",
+            "2xl": "48px",
+            "xl": "32px",
+            "margin": "32px",
+            "3xl": "64px",
+            "sm": "8px",
+            "lg": "24px",
+            "md": "16px",
+            "gutter": "24px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "button": ["Lexend"],
+            "h2": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h3": ["Lexend"]
+          },
+          fontSize: {
+            "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }],
+            "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+            "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    body {
+      background-color: #f9f9ff;
+      color: #151c27;
+    }
+
+    /* Modal Backdrop Blur Custom Class */
+    .backdrop-blur-custom {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+  </style>
+
+  <script src="../../nav.js"></script>
+  <script>
+    // Gestión del estado del menú de configuración (Dropdown)
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    // Accesibilidad: Cerrar menú con la tecla Escape
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+  </script>
+</head>
+
+<body class="font-body-md text-body-md overflow-x-hidden flex min-h-screen">
+
+  <header
+    class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-4 md:px-6 w-full">
+      <div class="flex items-center gap-lg">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+      <div class="flex items-center gap-2 md:gap-md">
+        <button
+          class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full"
+          onclick="mostrarToastModulo()">
+          <span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+        </button>
+        <button
+          class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold"
+          onclick="abrirMenuConfiguracion(event)">
+          E
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <aside
+    class="hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6 space-y-2">
+    <div class="mb-lg px-xs mt-2">
+      <div class="flex items-center gap-sm">
+        <div>
+          <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+          <p class="text-xs text-slate-500">Portal de Encargado</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 flex flex-col gap-sm mt-md">
+      <a href="#" onclick="SQ.go('encargadoPanel'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">dashboard</span> Panel
+      </a>
+      <a href="#" onclick="SQ.toast('Ya se encuentra en Gestión de Clases'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="calendar_month"
+          style="font-variation-settings: 'FILL' 1;">calendar_month</span> Gestión de Clases
+      </a>
+      <a href="#" onclick="SQ.go('encargadoProfes'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">people</span> Gestión de Profesores
+      </a>
+      <a href="#" onclick="SQ.go('encargadoNovedades'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">campaign</span> Novedades
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción.'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">storefront</span> Inventario Kiosco
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción.'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">people</span> Socios
+      </a>
+    </nav>
+  </aside>
+
+  <main class="lg:ml-64 pt-24 flex-1 min-h-screen pb-20 lg:pb-0">
+    <div class="p-4 sm:p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+
+      <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 md:gap-md">
+        <div>
+          <h1 class="font-h1 text-h1 text-on-surface">Gestión de Clases</h1>
+          <p class="font-body-md text-on-surface-variant">Modifica horarios, asigna suplencias y actualiza el cronograma
+            de la sede.</p>
+        </div>
+      </header>
+
+      <section id="alertaSuperposicion"
+        class="bg-red-50 border border-red-200 p-4 rounded-xl flex items-start sm:items-center gap-4 shadow-sm animate-pulse">
+        <span class="material-symbols-outlined text-red-600 text-3xl">person_off</span>
+        <div class="flex-1">
+          <h4 class="font-bold text-red-800">¡Profesor Ausente Reportado!</h4>
+          <p class="text-sm text-red-700">El profesor <strong>Marcos Ruiz</strong> estará ausente hoy. Hay una clase de
+            <strong>Funcional Training</strong> a las 18:00hs sin docente.
+          </p>
+        </div>
+        <button onclick="abrirModalSustituto('Funcional Training', '18:00 - 19:30', 'Sala B')"
+          class="bg-red-600 text-white text-sm font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors shrink-0">
+          Asignar Sustituto
+        </button>
+      </section>
+
+      <section id="alertaSuperposicionRecursos"
+        class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start sm:items-center gap-4 shadow-sm">
+        <span class="material-symbols-outlined text-amber-600 text-3xl">report_problem</span>
+        <div class="flex-1">
+          <h4 class="font-bold text-amber-800">Conflicto de Recursos Detectado</h4>
+          <p class="text-sm text-amber-700">Se detectó una superposición simulada en <strong>Sala B</strong> para el
+            turno de la tarde. Revisa asignaciones o reubica actividades.</p>
+        </div>
+        <button onclick="abrirModalConflicto('Sala B', '18:00 - 19:30', 'Funcional Training')"
+          class="bg-amber-600 text-white text-sm font-bold py-2 px-4 rounded-lg hover:bg-amber-700 transition-colors shrink-0">
+          Ver conflicto
+        </button>
+      </section>
+
+      <!-- Fila de filtros por días (Lunes - Sábado) -->
+      <div id="dayPills" class="mt-4 mb-4 px-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-2 flex-wrap">
+          <button class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold" data-day="Lunes"
+            onclick="selectDay(this)">Lun</button>
+          <button class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold" data-day="Martes"
+            onclick="selectDay(this)">Mar</button>
+          <button class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold" data-day="Miércoles"
+            onclick="selectDay(this)">Mié</button>
+          <button class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold" data-day="Jueves"
+            onclick="selectDay(this)">Jue</button>
+          <button class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold" data-day="Viernes"
+            onclick="selectDay(this)">Vie</button>
+          <button class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-sm font-semibold" data-day="Sábado"
+            onclick="selectDay(this)">Sáb</button>
+        </div>
+        <button onclick="abrirModal('modalProgramarClase', 'panelProgramarClase')"
+          class="bg-primary hover:bg-green-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 text-sm shrink-0 border-r-4 border-green-500">
+          <span class="material-symbols-outlined text-[20px]">add</span>
+          <span>Programar Nueva Clase</span>
+        </button>
+      </div>
+
+      <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <header class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+          <h3 class="font-h3 text-xl font-bold text-on-surface">Cronograma del Día</h3>
+          <span class="px-3 py-1 bg-slate-200 text-slate-700 text-xs font-bold rounded-full">Hoy</span>
+        </header>
+
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200">
+                <th class="px-6 py-4 text-xs uppercase tracking-wider text-slate-500 font-semibold">Horario</th>
+                <th class="px-6 py-4 text-xs uppercase tracking-wider text-slate-500 font-semibold">Actividad / Sala
+                </th>
+                <th class="px-6 py-4 text-xs uppercase tracking-wider text-slate-500 font-semibold">Profesor Titular
+                </th>
+                <th class="px-6 py-4 text-xs uppercase tracking-wider text-slate-500 font-semibold">Estado</th>
+                <th class="px-6 py-4 text-xs uppercase tracking-wider text-slate-500 font-semibold text-right">Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+
+              <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="px-6 py-4">
+                  <p class="font-semibold text-on-surface">08:00 - 09:00</p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="font-bold text-primary">Pilates Reformer</p>
+                  <p class="text-sm text-slate-500 flex items-center gap-1"><span
+                      class="material-symbols-outlined text-[14px]">meeting_room</span> Studio 1</p>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <p class="font-medium text-slate-700">Lucía Fernández</p>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold uppercase">
+                    Confirmada
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button title="Modificar Clase"
+                      onclick="abrirModalModificar('Pilates Reformer', '08:00', '09:00', 'Lucía Fernández', 'Studio 1')"
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors text-sm font-medium">
+                      <span class="material-symbols-outlined text-sm">edit</span> Modificar
+                    </button>
+                    <button title="Notificar cambio/cancelación"
+                      onclick="abrirModalNotificar('Pilates Reformer', '08:00 - 09:00', 'Studio 1')"
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-100 text-slate-600 hover:bg-slate-50 transition-colors text-sm">
+                      <span class="material-symbols-outlined text-sm">campaign</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="bg-red-50/30 border-l-4 border-l-red-500 hover:bg-red-50/50 transition-colors">
+                <td class="px-6 py-4">
+                  <p class="font-semibold text-red-600">18:00 - 19:30</p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="font-bold text-red-600">Funcional Training</p>
+                  <p class="text-sm text-red-500 flex items-center gap-1"><span
+                      class="material-symbols-outlined text-[14px]">meeting_room</span> Sala B</p>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <p class="font-medium text-red-700 line-through">Marcos Ruiz</p>
+                    <span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded-md">Ausente</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase animate-pulse">
+                    Requiere Sustituto
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div class="inline-flex items-center gap-2">
+                    <button title="Asignar Sustituto"
+                      onclick="abrirModalSustituto('Funcional Training', '18:00 - 19:30', 'Sala B')"
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors text-sm font-medium">
+                      <span class="material-symbols-outlined text-sm">person_add</span> Asignar
+                    </button>
+                    <button title="Notificar cambio/cancelación"
+                      onclick="abrirModalNotificar('Funcional Training', '18:00 - 19:30', 'Sala B')"
+                      class="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-red-100 text-red-600 hover:bg-red-50 transition-colors text-sm">
+                      <span class="material-symbols-outlined text-sm">campaign</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modal para Programar Nueva Clase -->
+  <div id="modalProgramarClase"
+    class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-custom flex justify-center items-center transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    <div id="panelProgramarClase"
+      class="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col p-6 transform scale-95 transition-transform duration-300">
+      <header class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">add_box</span> Programar Nueva Clase
+        </h3>
+        <button onclick="cerrarModal('modalProgramarClase', 'panelProgramarClase')"
+          class="p-2 hover:bg-slate-100 rounded-full text-slate-500">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <form id="formProgramarClase" onsubmit="guardarNuevaClase(event)" class="space-y-4 flex-1">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Seleccionar Actividad</label>
+            <select id="nuevaActividad" required
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none appearance-none">
+              <option value="" disabled selected>-- Seleccionar --</option>
+              <option value="Musculación / Hipertrofia">Musculación / Hipertrofia</option>
+              <option value="CrossFit">CrossFit</option>
+              <option value="Zumba Fitness">Zumba Fitness</option>
+              <option value="Pilates Reformer">Pilates Reformer</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Profesor Asignado</label>
+            <select id="nuevoProfesor" required
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none appearance-none">
+              <option value="" disabled selected>-- Seleccionar --</option>
+              <option value="Laura Martínez">Laura Martínez</option>
+              <option value="Alan Gómez">Alan Gómez</option>
+              <option value="Marcos Ruiz">Marcos Ruiz</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Día de la Semana</label>
+            <select id="nuevoDia" required
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none appearance-none">
+              <option value="" disabled selected>-- Seleccionar --</option>
+              <option value="Lunes">Lunes</option>
+              <option value="Martes">Martes</option>
+              <option value="Miércoles">Miércoles</option>
+              <option value="Jueves">Jueves</option>
+              <option value="Viernes">Viernes</option>
+              <option value="Sábado">Sábado</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Sala / Ubicación</label>
+            <select id="nuevaSala" required
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none appearance-none">
+              <option value="" disabled selected>-- Seleccionar --</option>
+              <option value="Sala A">Sala A</option>
+              <option value="Sala B">Sala B</option>
+              <option value="Studio 1">Studio 1</option>
+              <option value="Sala de Máquinas">Sala de Máquinas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Hora Inicio</label>
+            <input id="nuevaHoraInicio" type="time" required
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1.5 block">Hora Fin</label>
+            <input id="nuevaHoraFin" type="time" required
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none" />
+          </div>
+        </div>
+
+        <footer class="pt-6 mt-6 border-t border-slate-100 flex gap-4">
+          <button type="button" onclick="cerrarModal('modalProgramarClase', 'panelProgramarClase')"
+            class="flex-1 font-semibold py-3 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700">Cancelar</button>
+          <button type="submit"
+            class="flex-1 font-semibold py-3 bg-primary text-white rounded-xl shadow-md hover:bg-green-700 transition-colors">Guardar
+            Configuración</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Modificar Clase -->
+  <div id="modalModificar"
+    class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    <div id="panelModificar"
+      class="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col p-6 transform scale-95 transition-transform duration-300">
+      <header class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">edit_calendar</span> Modificar Clase
+        </h3>
+        <button onclick="cerrarModal('modalModificar', 'panelModificar')"
+          class="p-2 hover:bg-slate-100 rounded-full text-slate-500">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="space-y-4 flex-1">
+        <p class="text-sm text-slate-500 mb-4">La modificación de horarios o profesores se actualizará automáticamente
+          en los perfiles de todos los alumnos inscritos y en el panel del profesor.</p>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Actividad</label>
+          <input type="text" id="modActividad"
+            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Hora Inicio</label>
+            <input id="modInicio" type="time"
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Hora Fin</label>
+            <input id="modFin" type="time"
+              class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Profesor Titular</label>
+          <select id="modProfesor"
+            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none">
+            <option>Lucía Fernández</option>
+            <option>Marcos Ruiz</option>
+            <option>Carlos Giménez</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Sala</label>
+          <select id="modSala"
+            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-green-500 outline-none">
+            <option>Studio 1</option>
+            <option>Sala B</option>
+            <option>Zona Abierta</option>
+          </select>
+        </div>
+      </div>
+
+      <footer class="pt-6 mt-6 border-t border-slate-100 flex gap-4">
+        <button onclick="cerrarModal('modalModificar', 'panelModificar')"
+          class="flex-1 font-semibold py-3 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700">Cancelar</button>
+        <button onclick="guardarModificacion()"
+          class="flex-1 font-semibold py-3 bg-primary text-white rounded-xl shadow-md hover:bg-green-700 transition-colors">Actualizar
+          y Notificar</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal para Asignar Sustituto -->
+  <div id="modalSustituto"
+    class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    <div id="panelSustituto"
+      class="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col p-6 transform scale-95 transition-transform duration-300">
+      <header class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-red-600">person_add</span> Asignar Sustituto
+        </h3>
+        <button onclick="cerrarModal('modalSustituto', 'panelSustituto')"
+          class="p-2 hover:bg-slate-100 rounded-full text-slate-500">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="space-y-4 flex-1">
+        <div class="bg-red-50 p-4 rounded-xl border border-red-100 mb-2">
+          <p class="text-sm text-red-800">Estás asignando un sustituto para <strong><span
+                id="sustitutoAct"></span></strong> a las <strong><span id="sustitutoHora"></span></strong>.</p>
+          <p class="text-xs text-red-600 mt-1">El reemplazante recibirá una notificación push inmediata en su panel de
+            profesor.</p>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Seleccionar Profesor Reemplazante</label>
+          <select id="sustitutoSelect"
+            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:border-red-500 outline-none">
+            <option value="">-- Seleccionar --</option>
+            <option value="Carlos Giménez">Carlos Giménez (Disponible)</option>
+            <option value="Ana López">Ana López (Disponible)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Mensaje de Notificación al Reemplazante
+            (Automático)</label>
+          <textarea rows="3" disabled
+            class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-600 outline-none resize-none">"Hola [Profesor]. Has sido asignado como sustituto para la clase de Funcional Training de las 18:00hs en Sala B. Por favor, confirma tu disponibilidad en tu panel."</textarea>
+        </div>
+      </div>
+
+      <footer class="pt-6 mt-6 border-t border-slate-100 flex gap-4">
+        <button onclick="cerrarModal('modalSustituto', 'panelSustituto')"
+          class="flex-1 font-semibold py-3 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700">Cancelar</button>
+        <button onclick="guardarSustituto()"
+          class="flex-1 font-semibold py-3 bg-red-600 text-white rounded-xl shadow-md hover:bg-red-700 transition-colors flex justify-center items-center gap-2">
+          <span class="material-symbols-outlined text-sm">send</span> Notificar Reemplazo
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal para Conflicto de Recursos -->
+  <div id="modalConflicto"
+    class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex justify-center items-center transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    <div id="panelConflicto"
+      class="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col p-6 transform scale-95 transition-transform duration-300">
+      <header class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-amber-600">report_problem</span> Conflicto de Recursos
+        </h3>
+        <button onclick="cerrarModal('modalConflicto', 'panelConflicto')"
+          class="p-2 hover:bg-slate-100 rounded-full text-slate-500">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="space-y-4 flex-1">
+        <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 mb-2">
+          <p class="text-sm text-amber-800">Se ha detectado un conflicto de uso en una sala asignada. Revisa la
+            ocupación simultánea y considera reubicar la clase.</p>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Sala en conflicto</label>
+          <select id="conflictoSala" class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl outline-none">
+            <option value="Sala B">Sala B</option>
+            <option value="Studio 1">Studio 1</option>
+            <option value="Zona Abierta">Zona Abierta</option>
+            <option value="Salón Principal">Salón Principal</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Horario afectado</label>
+          <input id="conflictoHorario" type="text" readonly
+            class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl outline-none" />
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Actividad involucrada</label>
+          <input id="conflictoActividad" type="text" readonly
+            class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl outline-none" />
+        </div>
+      </div>
+
+      <footer class="pt-6 mt-6 border-t border-slate-100 flex gap-4">
+        <button onclick="cerrarModal('modalConflicto', 'panelConflicto')"
+          class="flex-1 font-semibold py-3 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700">Cerrar</button>
+        <button onclick="notificarConflicto()"
+          class="flex-1 font-semibold py-3 bg-amber-600 text-white rounded-xl shadow-md hover:bg-amber-700 transition-colors">Notificar
+          al equipo</button>
+      </footer>
+    </div>
+  </div>
+
+  <nav
+    class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('encargadoPanel'); return false;">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-[10px] mt-1 font-medium">Panel</span>
+    </button>
+    <button class="flex flex-col items-center text-green-600 p-2"
+      onclick="SQ.toast('Ya se encuentra en Gestión de Clases'); return false;">
+      <span class="material-symbols-outlined" data-icon="calendar_month"
+        style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+      <span class="text-[10px] mt-1 font-bold">Clases</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('encargadoProfes'); return false;">
+      <span class="material-symbols-outlined">people</span>
+      <span class="text-[10px] mt-1 font-medium">Profesores</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('encargadoNovedades'); return false;">
+      <span class="material-symbols-outlined">campaign</span>
+      <span class="text-[10px] mt-1 font-medium">Novedades</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción.'); return false;">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="text-[10px] mt-1 font-medium">Inventario Kiosco</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción.'); return false;">
+      <span class="material-symbols-outlined">people</span>
+      <span class="text-[10px] mt-1 font-medium">Socios</span>
+    </button>
+  </nav>
+
+  <div id="settingsMenuDropdown"
+    class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95"
+    style="visibility: hidden;">
+    <div class="py-2">
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">person</span>
+        <span class="text-body-md">Mi Perfil</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">tune</span>
+        <span class="text-body-md">Preferencias</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">help</span>
+        <span class="text-body-md">Ayuda</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">settings</span>
+        <span class="text-body-md">Configuración</span>
+      </button>
+
+      <div class="border-t border-slate-100 my-1"></div>
+
+      <button onclick="SQ.logout();"
+        class="w-full flex items-center gap-md px-4 py-3 text-error hover:bg-error hover:bg-opacity-5 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">logout</span>
+        <span class="text-body-md">Cerrar Sesión</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+    onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+  <script>
+    // Selección visual de día en la tira de píldoras
+    function selectDay(button) {
+      const parent = document.getElementById('dayPills');
+      if (!parent) return;
+      parent.querySelectorAll('button').forEach((b) => {
+        b.classList.remove('bg-green-600', 'text-white');
+        b.classList.add('bg-slate-100', 'text-slate-700');
+      });
+      button.classList.remove('bg-slate-100', 'text-slate-700');
+      button.classList.add('bg-green-600', 'text-white');
+      // TODO: conectar con la lógica real de filtro por fecha
+      if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast('Filtrando: ' + button.dataset.day, 'info');
+    }
+
+    // Notificar cambio/cancelación (simulación)
+    function abrirModalNotificar(act, horario, sala) {
+      const msg = `Notificando cambio/cancelación para ${act} (${horario}) en ${sala}`;
+      if (typeof SQ !== 'undefined' && SQ.toast) {
+        SQ.toast(msg, 'info');
+      } else {
+        alert(msg);
+      }
+    }
+
+    // Modal específico para conflictos de recursos
+    function abrirModalConflicto(sala, horario, actividad) {
+      document.getElementById('conflictoSala').value = sala;
+      document.getElementById('conflictoHorario').value = horario;
+      document.getElementById('conflictoActividad').value = actividad;
+      abrirModal('modalConflicto', 'panelConflicto');
+    }
+
+    function notificarConflicto() {
+      const alerta = document.getElementById('alertaSuperposicionRecursos');
+      if (alerta) {
+        alerta.style.display = 'none';
+      }
+      if (typeof SQ !== 'undefined' && SQ.toast) {
+        SQ.toast('Notificación de conflicto enviada al equipo de operaciones', 'success');
+      } else {
+        alert('Notificación de conflicto enviada al equipo de operaciones');
+      }
+      cerrarModal('modalConflicto', 'panelConflicto');
+    }
+
+    function hideResourceConflictAlert() {
+      const alerta = document.getElementById('alertaSuperposicionRecursos');
+      if (alerta) {
+        alerta.style.display = 'none';
+      }
+    }
+
+    function abrirModal(modalId, panelId) {
+      const modal = document.getElementById(modalId);
+      const panel = document.getElementById(panelId);
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+
+        panel.classList.remove('scale-95');
+        panel.classList.add('scale-100');
+      }, 10);
+    }
+
+    function cerrarModal(modalId, panelId) {
+      const modal = document.getElementById(modalId);
+      const panel = document.getElementById(panelId);
+
+      panel.classList.remove('scale-100');
+      panel.classList.add('scale-95');
+
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function abrirModalModificar(act, inicio, fin, prof, sala) {
+      document.getElementById('modActividad').value = act;
+      document.getElementById('modInicio').value = inicio;
+      document.getElementById('modFin').value = fin;
+      document.getElementById('modProfesor').value = prof;
+      document.getElementById('modSala').value = sala;
+      abrirModal('modalModificar', 'panelModificar');
+    }
+
+    function abrirModalSustituto(act, horario, sala) {
+      document.getElementById('sustitutoAct').textContent = act;
+      document.getElementById('sustitutoHora').textContent = horario;
+      abrirModal('modalSustituto', 'panelSustituto');
+    }
+
+    function guardarModificacion() {
+      cerrarModal('modalModificar', 'panelModificar');
+      setTimeout(() => {
+        if (typeof SQ !== 'undefined' && SQ.toast) {
+          SQ.toast('Actualizando horarios...', 'info');
+          setTimeout(() => {
+            SQ.toast('Clase modificada y perfiles actualizados automáticamente', 'success');
+          }, 1000);
+        } else {
+          alert("Clase modificada y perfiles actualizados");
+        }
+      }, 300);
+    }
+
+    function guardarSustituto() {
+      const sel = document.getElementById('sustitutoSelect').value;
+      if (!sel) {
+        if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast('Selecciona un reemplazante primero', 'error');
+        return;
+      }
+      cerrarModal('modalSustituto', 'panelSustituto');
+      setTimeout(() => {
+        if (typeof SQ !== 'undefined' && SQ.toast) {
+          SQ.toast(`Notificando a ${sel}...`, 'info');
+          setTimeout(() => {
+            SQ.toast('Sustituto asignado y notificado correctamente', 'success');
+            document.getElementById('alertaSuperposicion').style.display = 'none';
+          }, 1200);
+        } else {
+          alert("Sustituto asignado y notificado");
+        }
+      }, 300);
+    }
+
+    function guardarNuevaClase(event) {
+      event.preventDefault();
+      cerrarModal('modalProgramarClase', 'panelProgramarClase');
+
+      setTimeout(() => {
+        document.getElementById('formProgramarClase').reset();
+      }, 350);
+
+      setTimeout(() => {
+        mostrarToastSuperiorDerecha("✔️ Clase programada con éxito para la Sede Principal. Notificación enviada al profesor.");
+      }, 300);
+    }
+
+    function mostrarToastSuperiorDerecha(mensaje) {
+      let host = document.getElementById('sq-toast-top-right-host');
+      if (!host) {
+        host = document.createElement('div');
+        host.id = 'sq-toast-top-right-host';
+        host.style.position = 'fixed';
+        host.style.top = '24px';
+        host.style.right = '24px';
+        host.style.display = 'flex';
+        host.style.flexDirection = 'column';
+        host.style.gap = '8px';
+        host.style.zIndex = '9999';
+        document.body.appendChild(host);
+      }
+
+      const toast = document.createElement('div');
+      toast.textContent = mensaje;
+      toast.style.padding = '12px 18px';
+      toast.style.borderRadius = '12px';
+      toast.style.fontSize = '14px';
+      toast.style.fontWeight = '600';
+      toast.style.fontFamily = 'Lexend, sans-serif';
+      toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.12)';
+      toast.style.background = '#22c55e'; // Verde SquatGym
+      toast.style.color = '#ffffff';
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(-10px)';
+      toast.style.transition = 'all 300ms ease';
+
+      host.appendChild(toast);
+
+      // Reflow
+      toast.offsetHeight;
+
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Marcar 'Viernes' como día seleccionado al entrar
+      const parent = document.getElementById('dayPills');
+      if (parent) {
+        const btn = parent.querySelector('button[data-day="Viernes"]');
+        if (btn) selectDay(btn);
+      }
+
+      const modSala = document.getElementById('modSala');
+      if (modSala) {
+        modSala.addEventListener('change', hideResourceConflictAlert);
+      }
+
+      if (typeof SQ !== 'undefined' && SQ.state && SQ.state.action === 'asignar_sustituto') {
+        setTimeout(() => {
+          abrirModalSustituto('Funcional Training', '18:00 - 19:30', 'Sala B');
+          SQ.setState({ action: null });
+        }, 100);
+      }
+
+      // Cerrar modales al hacer clic fuera del panel (en el backdrop)
+      const modales = ['modalProgramarClase', 'modalModificar', 'modalSustituto', 'modalConflicto'];
+      modales.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              const panelId = modalId.replace('modal', 'panel');
+              cerrarModal(modalId, panelId);
+            }
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

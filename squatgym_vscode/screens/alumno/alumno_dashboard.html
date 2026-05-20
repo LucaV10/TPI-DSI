@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Mi Panel | SquatGym</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#f9f9ff",
+            "on-background": "#151c27",
+            "primary-container": "#22c55e",
+            "on-primary-container": "#004b1e",
+            "surface": "#ffffff",
+            "error": "#ba1a1a",
+          },
+          spacing: {
+            "md": "16px",
+            "3xl": "64px",
+            "xs": "4px",
+            "sm": "8px",
+            "lg": "24px",
+            "gutter": "24px",
+            "margin": "32px",
+            "xl": "32px",
+            "2xl": "48px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h3": ["Lexend"],
+            "h2": ["Lexend"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+
+  <script src="../../nav.js"></script>
+
+  <script>
+    // Gestión del estado del menú de configuración (Dropdown)
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+      if (!dropdown || !overlay) return;
+
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    // Notificaciones manejadas por nav.js
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+  </script>
+</head>
+
+<body class="bg-background text-on-background antialiased flex min-h-screen overflow-x-hidden">
+
+  <!-- TopNavBar Shell -->
+  <header
+    class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-6 w-full">
+      <div class="flex items-center gap-lg">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+      <div class="flex items-center gap-md">
+        <button
+          class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+          <span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+        </button>
+        <button
+          class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold"
+          onclick="abrirMenuConfiguracion(event)">
+          A
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SideNavBar Component -->
+  <aside
+    class=" hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm
+          font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6
+          space-y-2">
+          <div class="mb-6 px-1 mt-2">
+            <div class="flex items-center gap-2">
+              <div>
+                <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+                <p class="text-xs text-slate-500">Portal de Alumno</p>
+              </div>
+            </div>
+          </div>
+
+          <nav class="flex-1 flex flex-col gap-2 mt-4">
+            <a href="#"
+              class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span> Panel
+            </a>
+            <a href="#" onclick="SQ.go('alumnoCalendario'); return false;"
+              class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined">history</span> Mi Historial
+            </a>
+            <a href="#"
+              onclick="SQ.toast('🚧 Pasarela de pagos digitales y consulta de deuda en desarrollo (Módulo ajeno a DiagramaMates)', 'info'); return false;"
+              class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined">payments</span> Mis Pagos
+            </a>
+            <a href="#"
+              onclick="SQ.toast('⚠️ Formulario seguro de salud fuera de alcance (Corresponde a Gestión de Alumnos)', 'warning'); return false;"
+              class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined">medical_information</span> Mi Ficha Médica
+            </a>
+          </nav>
+          </aside>
+
+          <!-- ============================================== -->
+          <!-- MAIN CONTENT: ALUMNO DASHBOARD                 -->
+          <!-- ============================================== -->
+          <main class="lg:ml-64 pt-16 flex-1 min-h-screen flex flex-col pb-20 lg:pb-0">
+            <div class="p-4 sm:p-6 md:p-8 space-y-6 flex-1 max-w-5xl mx-auto w-full">
+
+              <!-- 1. Tarjeta de Estado Actual (Mi Ficha de Socio) -->
+              <section
+                class="relative bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg overflow-hidden isolate">
+                <!-- Decoración de fondo -->
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-green-500 opacity-20 rounded-full blur-3xl -z-10">
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-green-500/20 border border-green-500/30 text-green-400 text-[11px] font-bold uppercase tracking-widest mb-3">
+                      <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Habilitado
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight mb-1">Bienvenido, Alumno</h1>
+                    <p class="text-slate-400 text-sm font-medium">¡Hola Heber! · Plan Activo: <span
+                        class="text-white font-bold">Pase Libre
+                        Musculación e Hipertrofia (Frecuencia 4)</span></p>
+                    <p class="text-slate-400 text-xs mt-1">Sede Principal</p>
+                  </div>
+
+                  <div
+                    class="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:text-right shrink-0">
+                    <p class="text-xs text-slate-300 font-medium uppercase tracking-wider mb-1">Vencimiento</p>
+                    <p class="text-xl font-bold text-white">28 Nov 2026</p>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 3. Centro de Alertas y Notificaciones -->
+              <section class="space-y-3">
+                <div class="flex items-start gap-3 bg-blue-50 border border-blue-200/60 p-4 rounded-2xl shadow-sm">
+                  <span class="material-symbols-outlined text-blue-500 shrink-0 mt-0.5 text-[22px]"
+                    style="font-variation-settings: 'FILL' 1;">info</span>
+                  <p class="text-sm text-blue-900 font-medium leading-relaxed">
+                    <strong class="font-bold text-blue-700">Cambio de Docente:</strong> Tu rutina de Hipertrofia de hoy
+                    a las
+                    18:00 hs será supervisada por el Prof. Carlos Mendoza.
+                  </p>
+                </div>
+                <div class="flex items-start gap-3 bg-red-50 border border-red-200/60 p-4 rounded-2xl shadow-sm">
+                  <span class="material-symbols-outlined text-red-500 shrink-0 mt-0.5 text-[22px]"
+                    style="font-variation-settings: 'FILL' 1;">cancel</span>
+                  <p class="text-sm text-red-900 font-medium leading-relaxed">
+                    <strong class="font-bold text-red-700">Clase Cancelada:</strong> Zumba Fitness (19:00 hs) ha sido
+                    suspendida
+                    por mantenimiento del salón.
+                  </p>
+                </div>
+              </section>
+
+              <!-- 4. Accesos Rápidos Financieros y Médicos -->
+              <section class="grid grid-cols-2 gap-4">
+                <button
+                  onclick="SQ.toast('🚧 Pasarela de pagos digitales y consulta de deuda en desarrollo (Módulo ajeno a DiagramaMates)', 'info')"
+                  class="flex flex-col items-center justify-center gap-2 bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md hover:border-slate-300 active:bg-slate-50 transition-all text-center">
+                  <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-600 mb-1">
+                    <span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+                  </div>
+                  <span class="text-sm font-bold text-slate-800 leading-tight">Estado de Cuenta<br>& Pagos</span>
+                </button>
+
+                <button
+                  onclick="SQ.toast('⚠️ Formulario seguro de salud fuera de alcance (Corresponde a Gestión de Alumnos)', 'warning')"
+                  class="flex flex-col items-center justify-center gap-2 bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md hover:border-slate-300 active:bg-slate-50 transition-all text-center">
+                  <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-600 mb-1">
+                    <span class="material-symbols-outlined text-[24px]">medical_information</span>
+                  </div>
+                  <span class="text-sm font-bold text-slate-800 leading-tight">Declaración<br>de Salud</span>
+                </button>
+              </section>
+
+              <!-- 2. Grilla de Actividades del Día -->
+              <section class="pb-6">
+                <div class="flex items-center justify-between mb-4 mt-2">
+                  <h2 class="text-lg font-black text-slate-900 tracking-tight">Actividades de Hoy</h2>
+                  <span
+                    class="text-sm font-bold text-green-700 bg-green-100 border border-green-200 px-3 py-1 rounded-full">Sab
+                    25</span>
+                </div>
+
+                <div class="space-y-4">
+                  <!-- Tarjeta 1: Habilitada -->
+                  <article
+                    class="bg-white border border-slate-200 rounded-2xl p-4 flex gap-4 shadow-sm relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-green-500"></div>
+                    <div class="flex flex-col items-center justify-center min-w-[60px] border-r border-slate-100 pr-4">
+                      <span class="font-black text-slate-900 text-xl tracking-tighter">18:00</span>
+                      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">19:30</span>
+                    </div>
+                    <div class="flex-1 min-w-0 flex flex-col justify-center">
+                      <h3 class="font-bold text-slate-900 text-base truncate mb-1">Musculación / Hipertrofia</h3>
+                      <div class="flex flex-wrap gap-x-3 gap-y-1 text-xs font-semibold text-slate-500">
+                        <span class="flex items-center gap-1"><span
+                            class="material-symbols-outlined text-[14px]">person</span>
+                          Prof. C. Mendoza</span>
+                        <span class="flex items-center gap-1"><span
+                            class="material-symbols-outlined text-[14px]">location_on</span> Sala de Máquinas</span>
+                        <span class="flex items-center gap-1"><span
+                            class="material-symbols-outlined text-[14px]">group</span>
+                          Cupo: 12/20</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-center pl-2">
+                      <button onclick="SQ.toast('Tu asistencia ya fue registrada al ingresar al molinete.', 'info')"
+                        class="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center active:scale-95 transition-transform border border-green-200">
+                        <span class="material-symbols-outlined text-[20px]">how_to_reg</span>
+                      </button>
+                    </div>
+                  </article>
+
+                  <!-- Tarjeta 2: No incluida -->
+                  <article
+                    class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex gap-4 opacity-70 relative overflow-hidden">
+                    <!-- Patrón a rayas -->
+                    <div class="absolute inset-0 opacity-20 pointer-events-none"
+                      style="background-image: repeating-linear-gradient(45deg, #cbd5e1 0, #cbd5e1 1px, transparent 0, transparent 50%); background-size: 8px 8px;">
+                    </div>
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-slate-300"></div>
+
+                    <div
+                      class="flex flex-col items-center justify-center min-w-[60px] border-r border-slate-200 pr-4 z-10">
+                      <span class="font-bold text-slate-500 text-xl tracking-tighter">19:00</span>
+                      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">20:00</span>
+                    </div>
+
+                    <div class="flex-1 min-w-0 flex flex-col justify-center z-10">
+                      <div class="flex items-center gap-1.5 mb-1">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">lock</span>
+                        <h3 class="font-bold text-slate-600 text-base truncate">CrossFit (WOD)</h3>
+                      </div>
+                      <p
+                        class="text-[11px] font-bold text-orange-600 uppercase tracking-wide bg-orange-100 inline-block px-2 py-0.5 rounded border border-orange-200 self-start">
+                        No incluido en tu plan</p>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+            </div>
+          </main>
+
+          <!-- Bottom Nav (Móvil) -->
+          <nav
+            class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+            <button class="flex flex-col items-center text-green-600 p-2">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+              <span class="text-[10px] mt-1 font-bold">Panel</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.go('alumnoCalendario'); return false;">
+              <span class="material-symbols-outlined">history</span>
+              <span class="text-[10px] mt-1 font-bold">Historial</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+              <span class="material-symbols-outlined">payments</span>
+              <span class="text-[10px] mt-1 font-medium">Pagos</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+              <span class="material-symbols-outlined">medical_information</span>
+              <span class="text-[10px] mt-1 font-medium">Ficha</span>
+            </button>
+          </nav>
+
+          <!-- Menú Flotante Configuración -->
+          <div id="settingsMenuDropdown"
+            class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95"
+            style="visibility: hidden;">
+            <div class="py-2">
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">person</span>
+                <span class="text-body-md">Mi Perfil</span>
+              </button>
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">tune</span>
+                <span class="text-body-md">Preferencias</span>
+              </button>
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span class="text-body-md">Ayuda</span>
+              </button>
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">settings</span>
+                <span class="text-body-md">Configuración</span>
+              </button>
+              <div class="border-t border-slate-100 my-1"></div>
+              <button onclick="SQ.logout();"
+                class="w-full flex items-center gap-md px-4 py-3 text-error hover:bg-error hover:bg-opacity-5 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span class="text-body-md">Cerrar Sesión</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+            onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+          <!-- Panel de Notificaciones (Inyectado por nav.js) -->
+
+</body>
+
+</html>

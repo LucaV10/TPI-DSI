@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <title>Gestión de Usuarios | SquatGym</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#4ae176",
+            "on-surface": "#151c27",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed-variant": "#004395",
+            "surface": "#f9f9ff",
+            "secondary-container": "#d6e0f3",
+            "inverse-primary": "#4ae176",
+            "on-primary-container": "#004b1e",
+            "tertiary-container": "#82abff",
+            "on-secondary-fixed-variant": "#3d4756",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#e2e8f8",
+            "error-container": "#ffdad6",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#001a42",
+            "primary-container": "#22c55e",
+            "secondary-fixed": "#d9e3f6",
+            "inverse-surface": "#2a313d",
+            "background": "#f9f9ff",
+            "secondary": "#555f6f",
+            "on-surface-variant": "#3d4a3d",
+            "on-secondary-container": "#596373",
+            "on-background": "#151c27",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#002109",
+            "inverse-on-surface": "#ebf1ff",
+            "outline": "#6d7b6c",
+            "surface-variant": "#dce2f3",
+            "surface-container": "#e7eefe",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#dce2f3",
+            "on-primary-fixed-variant": "#005321",
+            "tertiary": "#005ac2",
+            "secondary-fixed-dim": "#bdc7d9",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#d3daea",
+            "primary-fixed": "#6bff8f",
+            "on-secondary-fixed": "#121c2a",
+            "outline-variant": "#bccbb9",
+            "surface-bright": "#f9f9ff",
+            "primary": "#006e2f",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#d8e2ff",
+            "surface-tint": "#006e2f",
+            "on-tertiary-container": "#003d88",
+            "tertiary-fixed-dim": "#adc6ff",
+            "surface-container-low": "#f0f3ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "xs": "4px",
+            "2xl": "48px",
+            "xl": "32px",
+            "margin": "32px",
+            "3xl": "64px",
+            "sm": "8px",
+            "lg": "24px",
+            "md": "16px",
+            "gutter": "24px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "button": ["Lexend"],
+            "h2": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h3": ["Lexend"]
+          },
+          fontSize: {
+            "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }],
+            "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+            "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+      background-color: #f9f9ff;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    td>div>div {
+      min-width: 0;
+    }
+
+    td>div>div p {
+      overflow-wrap: anywhere;
+    }
+
+    th:last-child,
+    td:last-child {
+      white-space: nowrap;
+    }
+  </style>
+
+  <script src="../../nav.js"></script>
+  <script>
+    // Gestión del estado del menú de configuración (Dropdown)
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    // Accesibilidad: Cerrar menú con la tecla Escape
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+  </script>
+</head>
+
+<body class="font-body-md text-body-md overflow-x-hidden flex min-h-screen">
+
+  <header
+    class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-6 w-full">
+      <div class="flex items-center gap-lg">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+      <div class="flex items-center gap-md">
+        <button
+          class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+          <span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+        </button>
+        <button class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold" onclick="abrirMenuConfiguracion(event)">
+          A
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <aside
+    class="hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6 space-y-2">
+    <div class="mb-lg px-xs mt-2">
+      <div class="flex items-center gap-sm">
+        <div>
+          <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+          <p class="text-xs text-slate-500">Portal de Administrador</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 flex flex-col gap-sm mt-md">
+      <a href="#" onclick="SQ.go('adminDashboard'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Panel
+      </a>
+      <a href="#" onclick="SQ.go('adminUsuarios'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="group"
+          style="font-variation-settings: 'FILL' 1;">group</span> Gestión de Usuarios
+      </a>
+      <a href="#" onclick="SQ.go('adminClases'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span> Gestión de Clases
+      </a>
+      <a href="#" onclick="SQ.go('adminFinanzas'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="payments">payments</span> Planes y Precios
+      </a>
+      <a href="#" onclick="SQ.go('adminAuditoria'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span> Auditoría
+      </a>
+    </nav>
+  </aside>
+
+  <main class="lg:ml-64 pt-16 flex-1 min-h-screen flex flex-col pb-24 lg:pb-0">
+    <div class="p-lg md:p-xl space-y-lg flex-1">
+      <header class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+        <div>
+          <h1 class="font-h1 text-h1 text-on-surface">Gestión de Usuarios</h1>
+          <p class="font-body-md text-body-md text-secondary mt-xs">Administra los accesos y roles de tu equipo de
+            trabajo.</p>
+        </div>
+        <button onclick="SQ.go('adminNuevoUsuario')"
+          class="bg-primary-container text-white font-button text-button px-lg py-md rounded-xl shadow-md hover:brightness-110 active:scale-95 transition-all flex items-center gap-sm self-start md:self-center">
+          <span class="material-symbols-outlined">person_add</span>
+          Nuevo Usuario
+        </button>
+      </header>
+
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+        <article class="bg-white p-lg rounded-xl shadow-sm border border-slate-200 flex items-center gap-md">
+          <div class="w-12 h-12 bg-green-100 text-green-700 rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+          </div>
+          <div>
+            <p class="text-label-caps text-slate-500">Total Usuarios</p>
+            <p class="text-h3 font-h3 text-on-surface">24</p>
+          </div>
+        </article>
+
+        <article class="bg-white p-lg rounded-xl shadow-sm border border-slate-200 flex items-center gap-md">
+          <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+          </div>
+          <div>
+            <p class="text-label-caps text-slate-500">Roles Activos</p>
+            <p class="text-h3 font-h3 text-on-surface">3</p>
+          </div>
+        </article>
+
+        <article class="bg-white p-lg rounded-xl shadow-sm border border-slate-200 flex items-center gap-md">
+          <div class="w-12 h-12 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+          </div>
+          <div>
+            <p class="text-label-caps text-slate-500">Actividad Hoy</p>
+            <p class="text-h3 font-h3 text-on-surface">12</p>
+          </div>
+        </article>
+      </section>
+
+      <section>
+        <h3 class="font-h3 text-h3 text-on-surface mb-4">Listado de Personal</h3>
+
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+
+          <div class="flex flex-col gap-4 border-b border-slate-100 p-lg">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="relative w-full sm:max-w-xl">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined">search</span>
+                <input id="searchInput" onkeyup="filtrarTabla()" type="text"
+                  placeholder="Buscar personal ej: Juan Perez..."
+                  class="w-full py-3 pl-10 pr-4 text-sm border-none bg-slate-50 rounded-xl focus:ring-2 focus:ring-green-500" />
+              </div>
+              <div class="flex items-center gap-sm">
+                <button class="text-slate-500 hover:bg-slate-50 rounded-lg p-sm">
+                  <span class="material-symbols-outlined">filter_list</span>
+                </button>
+                <button class="text-slate-500 hover:bg-slate-50 rounded-lg p-sm">
+                  <span class="material-symbols-outlined">download</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="mobileUserCards" class="grid grid-cols-1 gap-lg p-lg sm:hidden">
+            <article class="bg-white rounded-3xl border border-slate-200 shadow-sm p-lg">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="font-body-md text-on-surface font-semibold">Carlos Méndez</p>
+                  <p class="text-body-sm text-slate-500">carlos.m@squatgym.com</p>
+                </div>
+                <span
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-[11px] font-bold uppercase">Encargado</span>
+              </div>
+              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p class="text-slate-500">Estado</p>
+                  <p class="font-medium text-green-700">Activo</p>
+                </div>
+                <div>
+                  <p class="text-slate-500">Última actividad</p>
+                  <p class="font-medium text-slate-700">Hace 10 minutos</p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button
+                  onclick="abrirModalEditar(this, 'Carlos Méndez', 'carlos.m@squatgym.com', 'Encargado', 'Activo')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-primary bg-green-50 rounded-xl hover:bg-green-100 transition-colors">Editar</button>
+                <button onclick="abrirModalPermisos('Carlos Méndez', 'Encargado')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-slate-700 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">Permisos</button>
+                <button onclick="confirmarDarDeBajaUsuario(this, 'Carlos Méndez')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-red-700 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">Dar de Baja</button>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-3xl border border-slate-200 shadow-sm p-lg">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="font-body-md text-on-surface font-semibold">Lucía Fernández</p>
+                  <p class="text-body-sm text-slate-500">lucia.f@squatgym.com</p>
+                </div>
+                <span
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-[11px] font-bold uppercase">Secretaria</span>
+              </div>
+              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p class="text-slate-500">Estado</p>
+                  <p class="font-medium text-green-700">Activo</p>
+                </div>
+                <div>
+                  <p class="text-slate-500">Última actividad</p>
+                  <p class="font-medium text-slate-700">Hoy, 08:30 AM</p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button
+                  onclick="abrirModalEditar(this, 'Lucía Fernández', 'lucia.f@squatgym.com', 'Secretaria', 'Activo')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-primary bg-green-50 rounded-xl hover:bg-green-100 transition-colors">Editar</button>
+                <button onclick="abrirModalPermisos('Lucía Fernández', 'Secretaria')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-slate-700 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">Permisos</button>
+                <button onclick="confirmarDarDeBajaUsuario(this, 'Lucía Fernández')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-red-700 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">Dar de Baja</button>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-3xl border border-slate-200 shadow-sm p-lg">
+              <div class="flex items-start justify-between gap-4">
+                <div class="min-w-0">
+                  <p class="font-body-md text-on-surface font-semibold">Marcos Ruiz</p>
+                  <p class="text-body-sm text-slate-500">marcos.trainer@squatgym.com</p>
+                </div>
+                <span
+                  class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-[11px] font-bold uppercase">Profesor</span>
+              </div>
+              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p class="text-slate-500">Estado</p>
+                  <p class="font-medium text-slate-500">Inactivo</p>
+                </div>
+                <div>
+                  <p class="text-slate-500">Última actividad</p>
+                  <p class="font-medium text-slate-700">Ayer, 18:45 PM</p>
+                </div>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button
+                  onclick="abrirModalEditar(this, 'Marcos Ruiz', 'marcos.trainer@squatgym.com', 'Profesor', 'Inactivo')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-primary bg-green-50 rounded-xl hover:bg-green-100 transition-colors">Editar</button>
+                <button onclick="abrirModalPermisos('Marcos Ruiz', 'Profesor')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-slate-700 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">Permisos</button>
+                <button onclick="confirmarDarDeBajaUsuario(this, 'Marcos Ruiz')"
+                  class="flex-1 min-w-[110px] px-4 py-3 text-sm font-medium text-red-700 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">Dar de Baja</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="overflow-x-auto hidden sm:block">
+            <table class="w-full min-w-[950px] text-left border-collapse">
+              <colgroup>
+                <col class="w-[38%]" />
+                <col class="w-[15%]" />
+                <col class="w-[15%]" />
+                <col class="w-[17%]" />
+                <col class="w-[15%]" />
+              </colgroup>
+              <thead>
+                <tr class="bg-slate-50/50">
+                  <th class="px-lg py-md text-label-caps text-slate-500 font-semibold border-b border-slate-100">Usuario
+                  </th>
+                  <th class="px-lg py-md text-label-caps text-slate-500 font-semibold border-b border-slate-100">Rol
+                  </th>
+                  <th class="px-lg py-md text-label-caps text-slate-500 font-semibold border-b border-slate-100">Estado
+                  </th>
+                  <th class="px-lg py-md text-label-caps text-slate-500 font-semibold border-b border-slate-100">Última
+                    Actividad</th>
+                  <th
+                    class="px-lg py-md text-label-caps text-slate-500 font-semibold border-b border-slate-100 text-right">
+                    Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaUsuarios" class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="px-lg py-md">
+                    <div class="flex items-center gap-md">
+                      <img class="w-10 h-10 rounded-full border border-slate-200"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxPMYaDVlsdom0Bsn1GRKr5sgV5WFNDYei4wGKq4dweWpkhHicMK3ZJ6mH2AzZeqGBOsj66gDbnnvVqVXvXZqkQzFz4dL4Ml8heSL2RgwLREEWJ5saVOaZieSQ_eMFdzBwoDIST3JRv8udUbzzNfQhB5ZKgbxTSuzHCoMHiU8xj_skLWZIgfEb1OGsmYchrTXdqTH6SArkRzngbrr-ZEUjapkynjSqq4azsmEP8-b_x5dolffeR-5nk0l0aPxC3z00fm8avxFRU07w"
+                        alt="Profile" />
+                      <div>
+                        <p class="font-body-md text-on-surface font-semibold">Carlos Méndez</p>
+                        <p class="text-body-sm text-slate-500">carlos.m@squatgym.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-lg py-md">
+                    <span
+                      class="px-sm py-xs bg-purple-100 text-purple-700 text-[11px] font-bold rounded-full uppercase">Encargado</span>
+                  </td>
+                  <td class="px-lg py-md">
+                    <div class="flex items-center gap-xs text-green-600 font-medium text-body-sm">
+                      <span class="w-2 h-2 rounded-full bg-green-500"></span> Activo
+                    </div>
+                  </td>
+                  <td class="px-lg py-md text-body-sm text-slate-600">Hace 10 minutos</td>
+                  <td class="px-lg py-md text-right">
+                    <div class="flex flex-wrap items-center justify-end gap-2 min-w-max">
+                      <button
+                        onclick="abrirModalEditar(this, 'Carlos Méndez', 'carlos.m@squatgym.com', 'Encargado', 'Activo')"
+                        class="px-sm py-xs text-primary font-medium hover:bg-green-50 rounded-lg text-sm transition-colors">Editar</button>
+                      <button onclick="abrirModalPermisos('Carlos Méndez', 'Encargado')"
+                        class="px-4 py-2 flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-sm font-medium transition-all">
+                        <span class="material-symbols-outlined text-base">settings_suggest</span> Permisos
+                      </button>
+                      <button onclick="confirmarDarDeBajaUsuario(this, 'Carlos Méndez')"
+                        class="px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-xl text-sm font-medium transition-colors">Dar de Baja</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="px-lg py-md">
+                    <div class="flex items-center gap-md">
+                      <img class="w-10 h-10 rounded-full border border-slate-200"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp8YXJg0eWdtQmkvniAA-zqVXdolTOZnmVa9k89AEC75hIzpFD597h6p3JTaDQRHipOvrmqTDiPVOIetuUHfK25jwK1CVV025iX_scT0JJj28PkDKwLyX8dnMTbVqNgOPAAKjCjrQEVYr7ZYfBj4elxAeZVj2c3kOJKQWsFGsQk8xYGqC155mYyQ5yA2RxaHMW0H884bZpBkLxtXnEQF_gHpnW3SjvWBbr_M7SakKvReTuf4TX6Ug4ZwEQFJYL_GXbb4lA7A6aXWUV"
+                        alt="Profile" />
+                      <div>
+                        <p class="font-body-md text-on-surface font-semibold">Lucía Fernández</p>
+                        <p class="text-body-sm text-slate-500">lucia.f@squatgym.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-lg py-md">
+                    <span
+                      class="px-sm py-xs bg-blue-100 text-blue-700 text-[11px] font-bold rounded-full uppercase">Secretaria</span>
+                  </td>
+                  <td class="px-lg py-md">
+                    <div class="flex items-center gap-xs text-green-600 font-medium text-body-sm">
+                      <span class="w-2 h-2 rounded-full bg-green-500"></span> Activo
+                    </div>
+                  </td>
+                  <td class="px-lg py-md text-body-sm text-slate-600">Hoy, 08:30 AM</td>
+                  <td class="px-lg py-md text-right">
+                    <div class="flex flex-wrap items-center justify-end gap-2 min-w-max">
+                      <button
+                        onclick="abrirModalEditar(this, 'Lucía Fernández', 'lucia.f@squatgym.com', 'Secretaria', 'Activo')"
+                        class="px-sm py-xs text-primary font-medium hover:bg-green-50 rounded-lg text-sm transition-colors">Editar</button>
+                      <button onclick="abrirModalPermisos('Lucía Fernández', 'Secretaria')"
+                        class="px-4 py-2 flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-sm font-medium transition-all">
+                        <span class="material-symbols-outlined text-base">settings_suggest</span> Permisos
+                      </button>
+                      <button onclick="confirmarDarDeBajaUsuario(this, 'Lucía Fernández')"
+                        class="px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-xl text-sm font-medium transition-colors">Dar de Baja</button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="px-lg py-md">
+                    <div class="flex items-center gap-md">
+                      <img class="w-10 h-10 rounded-full border border-slate-200"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEX43e49Vm9KsK2dypI-Mo1UEJc8_dJs6bRATkOn-7R2MUIMaer2sGovxJzUOn5UXdAzCLgO0vIw9G19busnWVFgXFHIkMKkYGBOIeE_rkBDaWyiLnwEPxZ09-80pPpEbNfT80XbcB0_emicOqlaButQhV9v7Wc-px3TGYuZq_6VVHuqlFR-UF1o6v95ww_81T3E1MTiBoVpdwDG_Jp6_fxX3AHXeJ2foAugZko4rUi7I2rIlCW1mEddbMqTb-4ZQ5w_gKrlWXNlcH"
+                        alt="Profile" />
+                      <div>
+                        <p class="font-body-md text-on-surface font-semibold">Marcos Ruiz</p>
+                        <p class="text-body-sm text-slate-500">marcos.trainer@squatgym.com</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-lg py-md">
+                    <span
+                      class="px-sm py-xs bg-orange-100 text-orange-700 text-[11px] font-bold rounded-full uppercase">Profesor</span>
+                  </td>
+                  <td class="px-lg py-md">
+                    <div class="flex items-center gap-xs text-slate-400 font-medium text-body-sm">
+                      <span class="w-2 h-2 rounded-full bg-slate-300"></span> Inactivo
+                    </div>
+                  </td>
+                  <td class="px-lg py-md text-body-sm text-slate-600">Ayer, 18:45 PM</td>
+                  <td class="px-lg py-md text-right">
+                    <div class="flex flex-wrap items-center justify-end gap-2 min-w-max">
+                      <button
+                        onclick="abrirModalEditar(this, 'Marcos Ruiz', 'marcos.trainer@squatgym.com', 'Profesor', 'Inactivo')"
+                        class="px-sm py-xs text-primary font-medium hover:bg-green-50 rounded-lg text-sm transition-colors">Editar</button>
+                      <button onclick="abrirModalPermisos('Marcos Ruiz', 'Profesor')"
+                        class="px-4 py-2 flex items-center gap-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-sm font-medium transition-all">
+                        <span class="material-symbols-outlined text-base">settings_suggest</span> Permisos
+                      </button>
+                      <button onclick="confirmarDarDeBajaUsuario(this, 'Marcos Ruiz')"
+                        class="px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-xl text-sm font-medium transition-colors">Dar de Baja</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <footer class="p-lg bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <p class="text-body-sm text-slate-500">Mostrando 1-3 de 24 usuarios</p>
+            <div class="flex gap-xs">
+              <button
+                class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-white transition-colors disabled:opacity-50"
+                disabled>
+                <span class="material-symbols-outlined text-lg">chevron_left</span>
+              </button>
+              <button
+                class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:bg-white transition-colors">
+                <span class="material-symbols-outlined text-lg">chevron_right</span>
+              </button>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <nav
+    class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('adminDashboard'); return false;">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-[10px] mt-1 font-bold">Panel</span>
+    </button>
+    <button class="flex flex-col items-center text-green-600 p-2" onclick="SQ.go('adminUsuarios'); return false;">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+      <span class="text-[10px] mt-1 font-bold">Socios</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('adminClases'); return false;">
+      <span class="material-symbols-outlined">calendar_month</span>
+      <span class="text-[10px] mt-1 font-medium">Clases</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('adminFinanzas'); return false;">
+      <span class="material-symbols-outlined">payments</span>
+      <span class="text-[10px] mt-1 font-medium">Planes</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('adminAuditoria'); return false;">
+      <span class="material-symbols-outlined">receipt_long</span>
+      <span class="text-[10px] mt-1 font-medium">Auditoría</span>
+    </button>
+  </nav>
+
+  <div id="modalEditarUsuario"
+    class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-end transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-lg">
+      <header class="flex items-center justify-between mb-lg">
+        <h3 class="text-h3 font-h3 text-on-surface">Editar Usuario</h3>
+        <button onclick="cerrarModal('modalEditarUsuario')" class="p-sm hover:bg-slate-100 rounded-full">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="space-y-lg flex-1 overflow-y-auto">
+        <div class="bg-slate-50 p-md rounded-3xl border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-md">
+            <div
+              class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-bold">
+              U</div>
+            <div>
+              <p id="editUsuarioTitulo" class="text-lg font-semibold text-on-surface">Carlos Méndez</p>
+              <p class="text-sm text-slate-500">Actualiza los datos del usuario rápidamente</p>
+            </div>
+          </div>
+          <div class="mt-md flex flex-wrap gap-2">
+            <span id="editBadgeRol"
+              class="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">Encargado</span>
+            <span id="editBadgeEstado"
+              class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">Activo</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-md">
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Nombre</label>
+            <input id="editNombreInput" type="text"
+              class="w-full p-md bg-white border border-slate-200 rounded-2xl shadow-sm focus:border-emerald-400" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Correo</label>
+            <input id="editEmailInput" type="email"
+              class="w-full p-md bg-white border border-slate-200 rounded-2xl shadow-sm focus:border-emerald-400" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Rol</label>
+            <select id="editRolInput"
+              class="w-full p-md bg-white border border-slate-200 rounded-2xl shadow-sm focus:border-emerald-400">
+              <option value="Administrador">Administrador</option>
+              <option value="Encargado">Encargado</option>
+              <option value="Profesor">Profesor</option>
+              <option value="Secretaria">Secretaria</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Estado</label>
+            <select id="editEstadoInput"
+              class="w-full p-md bg-white border border-slate-200 rounded-2xl shadow-sm focus:border-emerald-400">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <footer class="pt-lg border-t border-slate-100 flex flex-col gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button onclick="cerrarModal('modalEditarUsuario')"
+            class="w-full font-button text-button py-md border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all">Cancelar</button>
+          <button onclick="guardarDatosUsuario()"
+            class="w-full font-button text-button py-md bg-primary text-white rounded-2xl shadow-md hover:brightness-110 transition-all">Guardar</button>
+          <button onclick="darDeBajaUsuarioSeleccionado()"
+            class="w-full font-button text-button py-md bg-red-600 text-white rounded-2xl shadow-md hover:bg-red-700 transition-all">Dar de Baja</button>
+        </div>
+        <p class="text-sm text-slate-500">Puedes cambiar datos o dar de baja al usuario. Los usuarios inactivos no podrán acceder al sistema.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div id="modalPermisos"
+    class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-end transition-opacity duration-300 opacity-0 pointer-events-none hidden">
+    <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col p-lg">
+      <header class="flex items-center justify-between mb-lg">
+        <h3 class="text-h3 font-h3 text-on-surface">Configurar Permisos</h3>
+        <button onclick="cerrarModal('modalPermisos')" class="p-sm hover:bg-slate-100 rounded-full">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <div class="space-y-lg flex-1 overflow-y-auto">
+        <div class="bg-slate-50 p-md rounded-xl border border-slate-100">
+          <div class="flex items-center gap-md">
+            <img class="w-12 h-12 rounded-lg"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfIsi7V6x-IWkFfK6uvQ8nuO01bJv4nekb3IgMe4MYNBr_VPwkbwOlr-51c4M9PYIH2olsh2cxl9RQ_NyllYvhOhcho1UCttJ3SKIrvkQxTznk4NnHanRiVYS6jfYrwVmXNiwCwCWjZGrZMwrnrE_vi7CPhF9BBlbSdNNQHh6G_n9cagIdn_oSy3J1pneiP9rwuWM0IAXutCJ28zOF5II3dIdnJOUSXpovwmSwj-txomXEoALHHc4X4_pV5xRWIEcJ_ipePrnDXHqg"
+              alt="Profile" />
+            <div>
+              <p id="permisosName" class="font-bold text-on-surface">Carlos Méndez</p>
+              <p id="permisosRole" class="text-xs text-slate-500">Rol: Encargado</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-md">
+          <p class="text-label-caps text-slate-500 uppercase">Módulos del Sistema</p>
+
+          <div class="flex items-center justify-between p-md bg-white border border-slate-200 rounded-xl">
+            <div class="flex items-center gap-md">
+              <span class="material-symbols-outlined text-green-600">payments</span>
+              <div>
+                <p class="text-sm font-bold">Ventas y Facturación</p>
+                <p class="text-xs text-slate-500">Acceso a planes y cobros</p>
+              </div>
+            </div>
+            <div class="w-12 h-6 bg-green-500 rounded-full relative p-1 flex items-center justify-end">
+              <div class="w-4 h-4 bg-white rounded-full"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between p-md bg-white border border-slate-200 rounded-xl">
+            <div class="flex items-center gap-md">
+              <span class="material-symbols-outlined text-green-600">group</span>
+              <div>
+                <p class="text-sm font-bold">Gestión de Socios</p>
+                <p class="text-xs text-slate-500">Ver y editar miembros</p>
+              </div>
+            </div>
+            <div class="w-12 h-6 bg-green-500 rounded-full relative p-1 flex items-center justify-end">
+              <div class="w-4 h-4 bg-white rounded-full"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between p-md bg-white border border-slate-200 rounded-xl opacity-60">
+            <div class="flex items-center gap-md">
+              <span class="material-symbols-outlined text-slate-400">admin_panel_settings</span>
+              <div>
+                <p class="text-sm font-bold">Configuración Admin</p>
+                <p class="text-xs text-slate-500">Ajustes globales</p>
+              </div>
+            </div>
+            <div class="w-12 h-6 bg-slate-200 rounded-full relative p-1 flex items-center justify-start">
+              <div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="pt-lg border-t border-slate-100 flex gap-md">
+        <button onclick="cerrarModal('modalPermisos')"
+          class="flex-1 font-button text-button py-md border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">Cancelar</button>
+        <button onclick="cerrarModal('modalPermisos')"
+          class="flex-1 font-button text-button py-md bg-primary text-white rounded-xl shadow-md hover:brightness-110 transition-all">Guardar
+          Cambios</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="settingsMenuDropdown"
+    class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95"
+    style="visibility: hidden;">
+    <div class="py-2">
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">person</span>
+        <span class="text-body-md">Mi Perfil</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">tune</span>
+        <span class="text-body-md">Preferencias</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">help</span>
+        <span class="text-body-md">Ayuda</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">settings</span>
+        <span class="text-body-md">Configuración</span>
+      </button>
+      <div class="border-t border-slate-100 my-1"></div>
+      <button onclick="SQ.logout();"
+        class="w-full flex items-center gap-md px-4 py-3 text-error hover:bg-error hover:bg-opacity-5 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">logout</span>
+        <span class="text-body-md">Cerrar Sesión</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+    onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+  <script>
+    // Función del Buscador
+    function filtrarTabla() {
+      let input = document.getElementById("searchInput").value.toLowerCase();
+      let filas = document.querySelectorAll("#tablaUsuarios tr");
+      let tarjetas = document.querySelectorAll("#mobileUserCards article");
+
+      filas.forEach(fila => {
+        let textoFila = fila.innerText.toLowerCase();
+        fila.style.display = textoFila.includes(input) ? "" : "none";
+      });
+
+      tarjetas.forEach(tarjeta => {
+        tarjeta.style.display = tarjeta.innerText.toLowerCase().includes(input) ? "" : "none";
+      });
+    }
+
+    let usuarioSeleccionadoRow = null;
+
+    // Función para abrir el modal de Editar Información
+    function abrirModalEditar(boton, nombre, email, rol, estado) {
+      usuarioSeleccionadoRow = boton.closest('tr') || boton.closest('article');
+
+      document.getElementById('editNombreInput').value = nombre;
+      document.getElementById('editEmailInput').value = email;
+      document.getElementById('editRolInput').value = rol;
+      document.getElementById('editEstadoInput').value = estado;
+
+      document.getElementById('editUsuarioTitulo').innerText = nombre;
+      document.getElementById('editBadgeRol').innerText = rol;
+      document.getElementById('editBadgeEstado').innerText = estado;
+      document.getElementById('editBadgeEstado').className = `inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${estado === 'Activo' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700'}`;
+
+      let modal = document.getElementById('modalEditarUsuario');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+      }, 10);
+    }
+
+    // Función para guardar cambios en el DOM
+    function guardarDatosUsuario() {
+      if (!usuarioSeleccionadoRow) {
+        cerrarModal('modalEditarUsuario');
+        return;
+      }
+
+      const nombre = document.getElementById('editNombreInput').value;
+      const email = document.getElementById('editEmailInput').value;
+      const rol = document.getElementById('editRolInput').value;
+      const estado = document.getElementById('editEstadoInput').value;
+
+      // Actualizar vista de tabla
+      if (usuarioSeleccionadoRow.tagName === 'TR') {
+        usuarioSeleccionadoRow.querySelector('td:first-child .font-body-md').innerText = nombre;
+        usuarioSeleccionadoRow.querySelector('td:first-child .text-body-sm').innerText = email;
+
+        const rolBadge = usuarioSeleccionadoRow.querySelector('td:nth-child(2) span');
+        rolBadge.innerText = rol;
+        rolBadge.className = 'px-sm py-xs text-[11px] font-bold rounded-full uppercase ' + (rol === 'Profesor' ? 'bg-orange-100 text-orange-700' : rol === 'Secretaria' ? 'bg-blue-100 text-blue-700' : rol === 'Encargado' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700');
+
+        const estadoDiv = usuarioSeleccionadoRow.querySelector('td:nth-child(3) div');
+        estadoDiv.innerHTML = `<span class="w-2 h-2 rounded-full ${estado === 'Activo' ? 'bg-green-500' : 'bg-slate-300'}"></span> ${estado}`;
+        estadoDiv.className = `flex items-center gap-xs font-medium text-body-sm ${estado === 'Activo' ? 'text-green-600' : 'text-slate-400'}`;
+      }
+
+      cerrarModal('modalEditarUsuario');
+    }
+
+    // Función para dar de baja usuario (botón directo)
+    function confirmarDarDeBajaUsuario(boton, nombre) {
+      const contenedor = boton.closest('tr') || boton.closest('article');
+      if (confirm(`¿Estás seguro de dar de baja a ${nombre}?`)) {
+        if (contenedor.tagName === 'TR') {
+          const estadoDiv = contenedor.querySelector('td:nth-child(3) div');
+          if (estadoDiv) {
+            estadoDiv.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300"></span> Inactivo`;
+            estadoDiv.className = `flex items-center gap-xs font-medium text-body-sm text-slate-400`;
+          }
+        } else {
+          const estadoP = contenedor.querySelector('div.grid > div:first-child > p.font-medium');
+          if (estadoP) {
+             estadoP.innerText = 'Inactivo';
+             estadoP.className = 'font-medium text-slate-500';
+          }
+        }
+        if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast(`${nombre} ha sido dado de baja.`, 'success');
+      }
+    }
+
+    // Función para dar de baja usuario (desde dentro del modal)
+    function darDeBajaUsuarioSeleccionado() {
+      if (!usuarioSeleccionadoRow) {
+        cerrarModal('modalEditarUsuario');
+        return;
+      }
+
+      const nombreInput = document.getElementById('editNombreInput').value;
+      if (confirm(`¿Estás seguro de dar de baja a ${nombreInput}?`)) {
+        if (usuarioSeleccionadoRow.tagName === 'TR') {
+          const estadoDiv = usuarioSeleccionadoRow.querySelector('td:nth-child(3) div');
+          if (estadoDiv) {
+            estadoDiv.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-300"></span> Inactivo`;
+            estadoDiv.className = `flex items-center gap-xs font-medium text-body-sm text-slate-400`;
+          }
+        } else {
+          const estadoP = usuarioSeleccionadoRow.querySelector('div.grid > div:first-child > p.font-medium');
+          if (estadoP) {
+             estadoP.innerText = 'Inactivo';
+             estadoP.className = 'font-medium text-slate-500';
+          }
+        }
+        usuarioSeleccionadoRow = null;
+        cerrarModal('modalEditarUsuario');
+        if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast(`${nombreInput} ha sido dado de baja.`, 'success');
+      }
+    }
+
+    // Función para abrir el modal de Permisos
+    function abrirModalPermisos(nombre, rol) {
+      document.getElementById('permisosName').innerText = nombre;
+      document.getElementById('permisosRole').innerText = "Rol: " + rol;
+
+      let modal = document.getElementById('modalPermisos');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+      }, 10);
+    }
+
+    // Función genérica para cerrar modales
+    function cerrarModal(modalId) {
+      let modal = document.getElementById(modalId);
+      modal.classList.remove('opacity-100', 'pointer-events-auto');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+
+      // Esperar a que termine la animación para ocultarlo del DOM
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+  </script>
+</body>
+
+</html>

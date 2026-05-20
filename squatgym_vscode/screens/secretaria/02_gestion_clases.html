@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Gestión de Clases | SquatGym</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#6bff8f",
+            "tertiary-fixed-dim": "#adc6ff",
+            "surface-container-lowest": "#ffffff",
+            "on-error": "#ffffff",
+            "surface-container": "#e7eefe",
+            "surface-container-high": "#e2e8f8",
+            "on-tertiary-container": "#003d88",
+            "surface-bright": "#f9f9ff",
+            "on-primary": "#ffffff",
+            "surface-dim": "#d3daea",
+            "tertiary-container": "#82abff",
+            "primary-fixed-dim": "#4ae176",
+            "background": "#f9f9ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#121c2a",
+            "inverse-primary": "#4ae176",
+            "secondary": "#555f6f",
+            "secondary-container": "#d6e0f3",
+            "surface-container-low": "#f0f3ff",
+            "error-container": "#ffdad6",
+            "tertiary-fixed": "#d8e2ff",
+            "tertiary": "#005ac2",
+            "surface": "#f9f9ff",
+            "on-primary-fixed-variant": "#005321",
+            "on-surface": "#151c27",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#3d4756",
+            "surface-variant": "#dce2f3",
+            "on-secondary": "#ffffff",
+            "inverse-surface": "#2a313d",
+            "secondary-fixed-dim": "#bdc7d9",
+            "on-tertiary-fixed": "#001a42",
+            "inverse-on-surface": "#ebf1ff",
+            "on-background": "#151c27",
+            "primary": "#006e2f",
+            "outline-variant": "#bccbb9",
+            "primary-container": "#22c55e",
+            "surface-container-highest": "#dce2f3",
+            "on-primary-fixed": "#002109",
+            "surface-tint": "#006e2f",
+            "secondary-fixed": "#d9e3f6",
+            "on-surface-variant": "#3d4a3d",
+            "on-primary-container": "#004b1e",
+            "on-tertiary-fixed-variant": "#004395",
+            "error": "#ba1a1a",
+            "outline": "#6d7b6c",
+            "on-secondary-container": "#596373"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "md": "16px",
+            "3xl": "64px",
+            "xs": "4px",
+            "sm": "8px",
+            "lg": "24px",
+            "gutter": "24px",
+            "margin": "32px",
+            "xl": "32px",
+            "2xl": "48px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "button": ["Lexend"],
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h3": ["Lexend"],
+            "h2": ["Lexend"]
+          },
+          fontSize: {
+            "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+            "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+            "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* Animaciones para los Modales */
+    .panel-hidden {
+      transform: translateX(100%);
+    }
+
+    .panel-visible {
+      transform: translateX(0);
+    }
+
+    .overlay-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .overlay-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-end;
+      pointer-events: none;
+    }
+
+    .toast {
+      min-width: 240px;
+      max-width: 340px;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.24s ease, transform 0.24s ease;
+      pointer-events: auto;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast-info {
+      background: #2563eb;
+    }
+
+    .toast-success {
+      background: #16a34a;
+    }
+
+    .toast-error {
+      background: #dc2626;
+    }
+  </style>
+  <script src="../../nav.js"></script>
+  <script src="../../classStore.js"></script>
+  <script>
+    // Gestión del estado del menu de configuración (Dropdown)
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+      if (!dropdown || !overlay) return;
+
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+      if (!dropdown || !overlay) return;
+
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95', 'invisible');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none', 'invisible');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+  </script>
+</head>
+
+<body class="bg-background text-on-background antialiased flex">
+  <div id="toastContainer" class="toast-container"></div>
+  <header
+    class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-4 md:px-6 w-full">
+      <div class="flex items-center gap-lg">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2 md:gap-md">
+        <button
+          class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+          <span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+        </button>
+        <button class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold" onclick="abrirMenuConfiguracion(event)">
+          S
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu Flotante Configuración -->
+  <div id="settingsMenuDropdown"
+    class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95"
+    style="visibility: hidden;">
+    <div class="py-2">
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">person</span>
+        <span class="text-body-md">Mi Perfil</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">tune</span>
+        <span class="text-body-md">Preferencias</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">help</span>
+        <span class="text-body-md">Ayuda</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">settings</span>
+        <span class="text-body-md">Configuración</span>
+      </button>
+      <div class="border-t border-slate-100 my-1"></div>
+      <button onclick="SQ.logout();"
+        class="w-full flex items-center gap-md px-4 py-3 text-error hover:bg-error hover:bg-opacity-5 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">logout</span>
+        <span class="text-body-md">Cerrar Sesión</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+    onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+  <aside
+    class="hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6 space-y-2">
+    <div class="mb-lg px-xs mt-2">
+      <div class="flex items-center gap-sm">
+        <div>
+          <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+          <p class="text-xs text-slate-500">Portal de Secretaria</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 flex flex-col gap-sm mt-md">
+      <a href="#" onclick="SQ.go('secrePanel'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Panel de Control
+      </a>
+      <a href="#" onclick="SQ.go('secreClases'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="class"
+          style="font-variation-settings: 'FILL' 1;">class</span> Gestión de Clases
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="Group">group</span> Alumnos
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="payments">payments</span> Pagos
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="storefront">storefront</span> Kiosco
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="receipt_long">badge</span> Personal
+      </a>
+    </nav>
+  </aside>
+
+  <main class="lg:ml-64 pt-16 flex-1 min-h-screen flex flex-col pb-20 lg:pb-0">
+    <div class="p-6 md:p-8 space-y-8 flex-1 w-full max-w-5xl mx-auto">
+
+      <!-- REQUERIMIENTO 1: Header (Sin botón de Nueva Clase) -->
+      <header class="flex flex-col gap-1">
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Clases</h1>
+        <p class="text-slate-500 font-medium">Visualiza y gestiona las clases programadas para hoy.</p>
+      </header>
+
+      <!-- REQUERIMIENTO 2: Selector de Días Horizontal (Pills) -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center gap-4 border-b border-slate-200 pb-4 overflow-x-auto hide-scrollbar">
+          <button
+            class="px-5 py-2.5 rounded-full font-semibold text-sm border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap"
+            onclick="SQ.toast('Funcionalidad en construcción', 'info'); return false;">Lun 11</button>
+          <button
+            class="px-5 py-2.5 rounded-full font-semibold text-sm border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap"
+            onclick="SQ.toast('Funcionalidad en construcción', 'info'); return false;">Mar 12</button>
+          <button
+            class="px-5 py-2.5 rounded-full font-semibold text-sm border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap"
+            onclick="SQ.toast('Funcionalidad en construcción', 'info'); return false;">Mié 13</button>
+          <button
+            class="px-5 py-2.5 rounded-full font-semibold text-sm border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap"
+            onclick="SQ.toast('Funcionalidad en construcción', 'info'); return false;">Jue 14</button>
+          <button
+            class="px-5 py-2.5 rounded-full font-semibold text-sm border border-slate-200 text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap"
+            onclick="SQ.toast('Funcionalidad en construcción', 'info'); return false;">Vie 15</button>
+          <!-- Día Actual Highlight -->
+          <button
+            class="px-6 py-2.5 rounded-full font-bold text-sm bg-green-500 text-white shadow-lg shadow-green-500/30 whitespace-nowrap transform scale-105"
+            onclick="SQ.toast('Funcionalidad en construcción', 'info'); return false;">Sáb 16 (Hoy)</button>
+        </div>
+
+        <!-- Filtros Rápidos -->
+        <div class="flex flex-col sm:flex-row gap-4 mt-2">
+          <div class="relative flex-1 cursor-pointer group"
+            onclick="SQ.toast('Funcionalidad en construcción', 'warning')">
+            <span
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-green-600 material-symbols-outlined text-[20px]">location_on</span>
+            <div
+              class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 flex justify-between items-center shadow-sm">
+              Sede Principal <span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+            </div>
+          </div>
+          <div class="relative flex-1">
+            <span
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-[20px]">search</span>
+            <input type="text" placeholder="Buscar actividad..."
+              class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:border-green-500 focus:ring-1 focus:ring-green-500 outline-none shadow-sm transition-colors">
+          </div>
+        </div>
+      </section>
+
+      <!-- REQUERIMIENTO 3 y 4: Agenda Diaria (Tarjetas Verticales Dinámicas) -->
+      <section id="gridClases" class="flex flex-col gap-4 pb-10">
+        <!-- Generado vía JS -->
+      </section>
+
+    </div>
+  </main>
+
+  <nav
+    class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('secrePanel'); return false;">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-[10px] mt-1 font-bold">Panel</span>
+    </button>
+    <button class="flex flex-col items-center text-green-600 p-2" onclick="SQ.go('secreClases'); return false;">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">class</span>
+      <span class="text-[10px] mt-1 font-bold">Clases</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">group</span>
+      <span class="text-[10px] mt-1 font-medium">Alumnos</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">payments</span>
+      <span class="text-[10px] mt-1 font-medium">Pagos</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="text-[10px] mt-1 font-medium">Kiosco</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">badge</span>
+      <span class="text-[10px] mt-1 font-medium">Personal</span>
+    </button>
+  </nav>
+
+  <!-- ===================================================================== -->
+  <!-- REQUERIMIENTO 3 y ESTRELLA: PANEL LATERAL ÚNICO (ASISTENCIA + EDICIÓN) -->
+  <!-- ===================================================================== -->
+  <div id="panelClase"
+    class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-end overlay-hidden transition-all duration-300">
+    <div id="panelClaseContenido"
+      class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col panel-hidden transition-transform duration-300 border-l border-slate-200">
+
+      <!-- Cabecera Híbrida -->
+      <div class="flex items-start justify-between p-6 border-b border-slate-100 bg-slate-50/50">
+        <div class="flex-1 w-full">
+
+          <!-- MODO VISTA -->
+          <div id="viewModeHeader" class="w-full">
+            <div class="flex items-center justify-between mb-2">
+              <h2 id="detalleNombre" class="text-2xl font-extrabold text-slate-900 tracking-tight">Clase</h2>
+              <button onclick="activarEdicionClase()"
+                class="p-2 bg-white border border-slate-200 text-slate-500 hover:text-green-600 hover:border-green-300 rounded-full transition-colors shadow-sm"
+                title="Editar Detalles">
+                <span class="material-symbols-outlined text-[18px]">edit</span>
+              </button>
+            </div>
+            <p class="text-sm font-medium text-slate-600 flex items-center gap-1.5 mb-1">
+              <span class="material-symbols-outlined text-[16px] text-slate-400">schedule</span> <span
+                id="detalleHorario">00:00 - 00:00</span>
+            </p>
+            <p class="text-sm font-medium text-slate-600 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-slate-400">meeting_room</span> <span
+                id="detalleSala">Sala</span>
+            </p>
+          </div>
+
+          <!-- MODO EDICIÓN (Oculto inicialmente) -->
+          <div id="editModeHeader" class="hidden space-y-3 w-full animate-fade-in">
+            <input type="hidden" id="editClassId">
+            <div>
+              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Actividad</label>
+              <input type="text" id="editInputNombre"
+                class="w-full font-bold text-lg bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none shadow-sm" />
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Inicio</label>
+                <input type="time" id="editInputInicio"
+                  class="w-full text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none shadow-sm" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fin</label>
+                <input type="time" id="editInputFin"
+                  class="w-full text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none shadow-sm" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sala</label>
+                <input type="text" id="editInputSala"
+                  class="w-full text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none shadow-sm" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Cupo Máx.</label>
+                <input type="number" id="editInputCupo"
+                  class="w-full text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 outline-none shadow-sm" />
+              </div>
+            </div>
+            <div class="flex gap-2 pt-2 border-t border-slate-200/50 mt-2">
+              <button onclick="cancelarEdicionClase()"
+                class="flex-1 bg-white border border-slate-300 text-slate-700 font-bold py-2.5 rounded-xl hover:bg-slate-50 text-sm shadow-sm transition-colors">Cancelar</button>
+              <button onclick="guardarEdicionClase()"
+                class="flex-1 bg-green-500 text-white font-bold py-2.5 rounded-xl shadow-md shadow-green-500/20 hover:bg-green-600 text-sm transition-colors">Guardar</button>
+            </div>
+          </div>
+
+        </div>
+        <button onclick="cerrarPanelClase()"
+          class="ml-4 p-2 bg-white hover:bg-slate-100 border border-slate-200 rounded-full text-slate-500 transition-colors shadow-sm shrink-0">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+
+      <!-- Lista de Asistencia -->
+      <div class="p-6 flex-1 overflow-y-auto bg-slate-50/50">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Gestión de Asistencia</span>
+          <div class="inline-flex items-center bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
+            <span class="text-xs font-bold text-slate-700" id="detalleCupo">0/0</span>
+          </div>
+        </div>
+        <ul id="listaAsistenciaPanel" class="space-y-3">
+          <!-- Inyectado por JS -->
+        </ul>
+      </div>
+
+      <div class="p-6 border-t border-slate-100 bg-white">
+        <button onclick="guardarAsistencia()"
+          class="w-full py-3.5 bg-slate-900 text-white font-bold rounded-xl shadow-lg shadow-slate-900/20 hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-[20px]">how_to_reg</span> Guardar Asistencia
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Reemplazo Docente -->
+  <div id="modalReemplazo"
+    class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center overlay-hidden transition-all duration-300">
+    <div id="panelReemplazo"
+      class="bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col scale-95 opacity-0 transition-all duration-300">
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <span class="material-symbols-outlined text-orange-500">swap_horiz</span> Reemplazo Docente
+        </h3>
+      </div>
+      <div class="p-6 space-y-4">
+        <input type="hidden" id="reemplazoId">
+        <p class="text-sm font-medium text-slate-600">Actualizar profesor para <strong id="reemplazoClaseTitle"
+            class="text-slate-900">...</strong>.</p>
+
+        <!-- CORRECCIÓN AQUÍ: Faltaba este elemento para mostrar el profesor actual -->
+        <p class="text-xs font-medium text-slate-500">Profesor actual: <strong id="reemplazoProfActual"
+            class="text-slate-700">...</strong></p>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Nuevo Docente</label>
+          <select id="reemplazoSelect"
+            class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-orange-500 font-semibold text-slate-800"></select>
+        </div>
+      </div>
+      <div class="p-6 bg-slate-50 rounded-b-2xl flex gap-3">
+        <button onclick="cerrarPanelGenerico('modalReemplazo', 'panelReemplazo')"
+          class="flex-1 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-colors">Cancelar</button>
+        <button onclick="guardarReemplazo()"
+          class="flex-1 py-2.5 bg-orange-500 text-white font-bold rounded-xl shadow-md hover:bg-orange-600 transition-colors">Asignar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Notificar -->
+  <div id="modalNotificacion"
+    class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center overlay-hidden transition-all duration-300">
+    <div id="panelNotificacion"
+      class="bg-white w-full max-w-sm rounded-2xl shadow-2xl flex flex-col scale-95 opacity-0 transition-all duration-300">
+      <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <span class="material-symbols-outlined text-blue-500">campaign</span> Notificar Alumnos
+        </h3>
+      </div>
+      <div class="p-6 space-y-4">
+        <p class="text-sm font-medium text-slate-600">Clase: <strong id="notiClaseTitle"
+            class="text-slate-900">...</strong>.</p>
+        <textarea id="notiTextarea" rows="4" placeholder="Escribe tu aviso personalizado aquí..."
+          class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-blue-500 text-sm font-medium text-slate-800 resize-none"></textarea>
+      </div>
+      <div class="p-6 bg-slate-50 rounded-b-2xl flex gap-3">
+        <button onclick="cerrarPanelGenerico('modalNotificacion', 'panelNotificacion')"
+          class="flex-1 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-colors">Cancelar</button>
+        <button onclick="enviarNotificacion()"
+          class="flex-1 py-2.5 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 transition-colors flex justify-center items-center gap-2">
+          <span class="material-symbols-outlined text-[18px]">send</span> Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. RENDERIZADO DE LAS TARJETAS PREMIUM
+    function renderClases() {
+      const grid = document.getElementById('gridClases');
+      const clasesData = window.SQClassStore.listClasses();
+
+      clasesData.sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+
+      if (clasesData.length === 0) {
+        grid.innerHTML = `<div class="text-center py-12 text-slate-500 font-medium">No hay clases programadas para este día.</div>`;
+        return;
+      }
+
+      grid.innerHTML = clasesData.map(c => {
+        const prof = window.SQClassStore.getProfesor(c.profesorId);
+        const avail = window.SQClassStore.getAvailability(c);
+        const pct = Math.min(100, Math.round((avail.inscriptos / avail.total) * 100)) || 0;
+
+        // Colores de Franja lateral
+        let stripColor = "border-slate-300";
+        const nameUp = c.nombre.toUpperCase();
+        if (nameUp.includes('CROSSFIT')) stripColor = "border-emerald-500";
+        else if (nameUp.includes('YOGA')) stripColor = "border-sky-400";
+        else if (nameUp.includes('PILATES')) stripColor = "border-purple-500";
+        else if (nameUp.includes('ZUMBA') || nameUp.includes('FUNCIONAL')) stripColor = "border-pink-500";
+
+        // Badges y Opacidad
+        let badgeStyle = "bg-green-100 text-green-700";
+        if (pct >= 100) badgeStyle = "bg-red-100 text-red-700";
+        else if (pct >= 80) badgeStyle = "bg-orange-100 text-orange-700";
+
+        let cardOp = c.estado === 'Cancelada' ? 'opacity-50 grayscale hover:grayscale-0' : '';
+        let statusTag = c.estado === 'Cancelada' ? `<span class="ml-3 px-2 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold uppercase rounded-md tracking-widest">Cancelada</span>` : '';
+
+        return `
+          <article class="glass-card w-full border-l-4 ${stripColor} rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer ${cardOp}">
+            
+            <!-- Hora -->
+            <div class="flex flex-col sm:w-24 shrink-0" onclick="abrirPanelClase('${c.id}')">
+              <span class="font-extrabold text-slate-900 text-2xl tracking-tight">${c.horaInicio}</span>
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">${c.horaFin}</span>
+            </div>
+
+            <!-- Divisor -->
+            <div class="hidden sm:block w-px h-12 bg-slate-200"></div>
+
+            <!-- Info Central -->
+            <div class="flex-1" onclick="abrirPanelClase('${c.id}')">
+              <div class="flex items-center mb-1.5">
+                <h3 class="font-bold text-slate-900 text-lg sm:text-xl tracking-tight">${c.nombre}</h3>
+                ${statusTag}
+              </div>
+              <div class="flex flex-wrap items-center gap-3 text-sm font-medium text-slate-600">
+                <div class="flex items-center gap-1.5 bg-slate-100/80 px-2.5 py-1 rounded-lg border border-slate-200/50">
+                  <span class="material-symbols-outlined text-[16px] text-slate-500">person</span>
+                  <span>${prof.nombre}</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-slate-400">location_on</span>
+                  ${c.sala}
+                </div>
+              </div>
+            </div>
+
+            <!-- Cupo Badge -->
+            <div class="sm:w-28 shrink-0 flex items-center justify-start sm:justify-center" onclick="abrirPanelClase('${c.id}')">
+              <div class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl font-bold text-sm tracking-wide border border-white/50 shadow-sm ${badgeStyle}">
+                <span class="material-symbols-outlined text-[18px] mr-1.5">group</span>
+                ${avail.inscriptos}/${avail.total}
+              </div>
+            </div>
+
+            <!-- Botones de Acción (Rediseñados) -->
+            <div class="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-4 mt-2 sm:mt-0 w-full sm:w-auto">
+              <button onclick="abrirPanelClase('${c.id}')" class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2.5 bg-green-500 text-white hover:bg-green-600 rounded-xl font-bold text-sm shadow-md shadow-green-500/20 transition-all active:scale-95">
+                <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+                <span class="sm:hidden lg:inline">Asistencia</span>
+              </button>
+              <button onclick="abrirModalReemplazo('${c.id}')" title="Asignar Reemplazo" class="w-10 h-10 shrink-0 flex items-center justify-center rounded-xl bg-orange-50 text-orange-600 hover:bg-orange-100 transition-colors border border-orange-200/50">
+                <span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+              </button>
+              <button onclick="abrirModalNotificar('${c.id}')" title="Notificar Cambios" class="w-10 h-10 shrink-0 flex items-center justify-center rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-200/50">
+                <span class="material-symbols-outlined text-[20px]">campaign</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+
+    // 2. PANEL LATERAL (ASISTENCIA + EDICIÓN)
+    function abrirPanelClase(id) {
+      const c = window.SQClassStore.listClasses().find(x => x.id === id);
+      if (!c) return;
+
+      // Reset state to view mode
+      document.getElementById('viewModeHeader').classList.remove('hidden');
+      document.getElementById('editModeHeader').classList.add('hidden');
+
+      // Populate View Mode
+      document.getElementById('detalleNombre').innerText = c.nombre;
+      document.getElementById('detalleHorario').innerText = `${c.horaInicio} - ${c.horaFin}`;
+      document.getElementById('detalleSala').innerText = c.sala;
+
+      // Populate Edit Mode inputs (Requerimiento Estrella)
+      document.getElementById('editClassId').value = c.id;
+      document.getElementById('editInputNombre').value = c.nombre;
+      document.getElementById('editInputInicio').value = c.horaInicio;
+      document.getElementById('editInputFin').value = c.horaFin;
+      document.getElementById('editInputSala').value = c.sala;
+      document.getElementById('editInputCupo').value = c.cupo;
+
+      // Populate Attendance
+      document.getElementById('detalleCupo').innerText = `${c.inscriptos.length}/${c.cupo}`;
+      const ul = document.getElementById('listaAsistenciaPanel');
+      const allAlumnos = window.SQClassStore.listAlumnos();
+
+      ul.innerHTML = c.inscriptos.map(alId => {
+        const alumno = allAlumnos.find(a => a.id === alId);
+        if (!alumno) return '';
+        const iniciales = alumno.nombre.split(' ').map(n => n[0]).join('').substring(0, 2);
+
+        if (alumno.deuda) {
+          return `
+            <li class="flex items-center justify-between p-3 border border-red-200 rounded-xl bg-red-50/50">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-xs font-bold text-red-600">${iniciales}</div>
+                <div>
+                  <span class="text-sm font-bold text-slate-800 block">${alumno.nombre}</span>
+                  <span class="text-[10px] text-red-600 font-bold uppercase tracking-wider">Deuda Pendiente</span>
+                </div>
+              </div>
+              <input type="checkbox" disabled class="w-5 h-5 rounded border-slate-300 text-slate-300 bg-slate-100">
+            </li>`;
+        } else {
+          return `
+            <li class="flex items-center justify-between p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">${iniciales}</div>
+                <span class="text-sm font-semibold text-slate-800">${alumno.nombre}</span>
+              </div>
+              <input type="checkbox" checked class="w-6 h-6 rounded-md border-slate-300 text-green-500 focus:ring-green-500 cursor-pointer transition-all">
+            </li>`;
+        }
+      }).join('');
+
+      // Open Panel
+      const modal = document.getElementById('panelClase');
+      const panel = document.getElementById('panelClaseContenido');
+      modal.classList.remove('overlay-hidden');
+      modal.classList.add('overlay-visible');
+      setTimeout(() => {
+        panel.classList.remove('panel-hidden');
+        panel.classList.add('panel-visible');
+      }, 10);
+    }
+
+    function cerrarPanelClase() {
+      const modal = document.getElementById('panelClase');
+      const panel = document.getElementById('panelClaseContenido');
+      panel.classList.remove('panel-visible');
+      panel.classList.add('panel-hidden');
+      setTimeout(() => {
+        modal.classList.remove('overlay-visible');
+        modal.classList.add('overlay-hidden');
+      }, 300);
+    }
+
+    function guardarAsistencia() {
+      cerrarPanelClase();
+      SQ.toast('Asistencia registrada correctamente', 'success');
+    }
+
+    // Funciones Edición (Requerimiento Estrella)
+    function activarEdicionClase() {
+      document.getElementById('viewModeHeader').classList.add('hidden');
+      document.getElementById('editModeHeader').classList.remove('hidden');
+    }
+
+    function cancelarEdicionClase() {
+      document.getElementById('editModeHeader').classList.add('hidden');
+      document.getElementById('viewModeHeader').classList.remove('hidden');
+    }
+
+    function guardarEdicionClase() {
+      const id = document.getElementById('editClassId').value;
+      const data = {
+        nombre: document.getElementById('editInputNombre').value,
+        horaInicio: document.getElementById('editInputInicio').value,
+        horaFin: document.getElementById('editInputFin').value,
+        sala: document.getElementById('editInputSala').value,
+        cupo: parseInt(document.getElementById('editInputCupo').value)
+      };
+
+      // Guardado Simulado
+      window.SQClassStore.updateClass(id, data);
+
+      // Update DOM
+      renderClases();
+      abrirPanelClase(id); // Recarga la vista con datos frescos
+
+      SQ.toast('Clase actualizada en tiempo real', 'success');
+    }
+
+    // 3. Modales Secundarios
+    function abrirModalReemplazo(id) {
+      const c = window.SQClassStore.listClasses().find(x => x.id === id);
+      if (!c) return;
+      const prof = window.SQClassStore.getProfesor(c.profesorId);
+
+      document.getElementById('reemplazoId').value = c.id;
+      document.getElementById('reemplazoClaseTitle').innerText = c.nombre;
+      document.getElementById('reemplazoProfActual').innerText = prof.nombre;
+
+      const select = document.getElementById('reemplazoSelect');
+      const profesores = window.SQClassStore.listProfesores().filter(p => p.id !== prof.id);
+      select.innerHTML = '<option value="">-- Seleccione un docente --</option>' +
+        profesores.map(p => `<option value="${p.id}">${p.nombre}</option>`).join('');
+
+      abrirPanelGenerico('modalReemplazo', 'panelReemplazo');
+    }
+
+    function guardarReemplazo() {
+      const cId = document.getElementById('reemplazoId').value;
+      const newProfId = document.getElementById('reemplazoSelect').value;
+      if (!newProfId) return SQ.toast("Debes seleccionar un profesor.", "error");
+
+      window.SQClassStore.updateClass(cId, { profesorId: newProfId });
+      SQ.toast('Reemplazo asignado exitosamente', 'success');
+      cerrarPanelGenerico('modalReemplazo', 'panelReemplazo');
+      renderClases();
+    }
+
+    function abrirModalNotificar(id) {
+      const c = window.SQClassStore.listClasses().find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('notiClaseTitle').innerText = c.nombre;
+      document.getElementById('notiTextarea').value = '';
+      abrirPanelGenerico('modalNotificacion', 'panelNotificacion');
+    }
+
+    function enviarNotificacion() {
+      SQ.toast('Aviso push enviado a los alumnos.', 'success');
+      cerrarPanelGenerico('modalNotificacion', 'panelNotificacion');
+    }
+
+    // Funciones Auxiliares Animación Popups Centrados
+    function abrirPanelGenerico(modalId, panelId) {
+      const modal = document.getElementById(modalId);
+      const panel = document.getElementById(panelId);
+      modal.classList.remove('overlay-hidden');
+      modal.classList.add('overlay-visible');
+      setTimeout(() => {
+        panel.classList.remove('scale-95', 'opacity-0');
+        panel.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function cerrarPanelGenerico(modalId, panelId) {
+      const modal = document.getElementById(modalId);
+      const panel = document.getElementById(panelId);
+      panel.classList.remove('scale-100', 'opacity-100');
+      panel.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.remove('overlay-visible');
+        modal.classList.add('overlay-hidden');
+      }, 300);
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      // Iniciar el input de fecha (visual)
+      const inputF = document.getElementById('fechaFiltro');
+      if (inputF) inputF.value = new Date().toISOString().slice(0, 10);
+      renderClases();
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <title>Auditoría | SquatGym</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#4ae176",
+            "on-surface": "#151c27",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed-variant": "#004395",
+            "surface": "#f9f9ff",
+            "secondary-container": "#d6e0f3",
+            "inverse-primary": "#4ae176",
+            "on-primary-container": "#004b1e",
+            "tertiary-container": "#82abff",
+            "on-secondary-fixed-variant": "#3d4756",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#e2e8f8",
+            "error-container": "#ffdad6",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#001a42",
+            "primary-container": "#22c55e",
+            "secondary-fixed": "#d9e3f6",
+            "inverse-surface": "#2a313d",
+            "background": "#f9f9ff",
+            "secondary": "#555f6f",
+            "on-surface-variant": "#3d4a3d",
+            "on-background": "#151c27",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#002109",
+            "inverse-on-surface": "#ebf1ff",
+            "outline": "#6d7b6c",
+            "surface-variant": "#dce2f3",
+            "surface-container": "#e7eefe",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#dce2f3",
+            "on-primary-fixed-variant": "#005321",
+            "tertiary": "#005ac2",
+            "secondary-fixed-dim": "#bdc7d9",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#d3daea",
+            "primary-fixed": "#6bff8f",
+            "on-secondary-fixed": "#121c2a",
+            "outline-variant": "#bccbb9",
+            "surface-bright": "#f9f9ff",
+            "primary": "#006e2f",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#d8e2ff",
+            "surface-tint": "#006e2f",
+            "on-tertiary-container": "#003d88",
+            "tertiary-fixed-dim": "#adc6ff",
+            "surface-container-low": "#f0f3ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "xs": "4px",
+            "2xl": "48px",
+            "xl": "32px",
+            "margin": "32px",
+            "3xl": "64px",
+            "sm": "8px",
+            "lg": "24px",
+            "md": "16px",
+            "gutter": "24px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "button": ["Lexend"],
+            "h2": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h3": ["Lexend"]
+          },
+          fontSize: {
+            "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }],
+            "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+            "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+      background-color: #f9f9ff;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+  <script src="../../nav.js"></script>
+  <script>
+    // Gestión del estado del menú de configuración (Dropdown)
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    // Accesibilidad: Cerrar menú con la tecla Escape
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+  </script>
+</head>
+
+<body class="bg-background text-on-surface">
+
+  <header
+    class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-4 md:px-6 w-full">
+      <div class="flex items-center gap-lg">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+      <div class="flex items-center gap-2 md:gap-md">
+        <button
+          class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+          <span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+        </button>
+        <button
+          class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold"
+          onclick="abrirMenuConfiguracion(event)">
+          A
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <aside class=" hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm
+          font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6
+          space-y-2">
+          <div class="mb-lg px-xs mt-2">
+            <div class="flex items-center gap-sm">
+              <div>
+                <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+                <p class="text-xs text-slate-500">Portal de Administrador</p>
+              </div>
+            </div>
+          </div>
+
+          <nav class="flex-1 flex flex-col gap-sm mt-md">
+            <a href="#" onclick="SQ.go('adminDashboard'); return false;"
+              class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Panel
+            </a>
+            <a href="#" onclick="SQ.go('adminUsuarios'); return false;"
+              class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined" data-icon="group">group</span> Gestión de Usuarios
+            </a>
+            <a href="#" onclick="SQ.go('adminClases'); return false;"
+              class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span> Gestión de Clases
+            </a>
+            <a href="#" onclick="SQ.go('adminFinanzas'); return false;"
+              class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined" data-icon="payments">payments</span> Planes y Precios
+            </a>
+            <a href="#" onclick="SQ.go('adminAuditoria'); return false;"
+              class="flex items-center gap-md px-md py-sm rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+              <span class="material-symbols-outlined" data-icon="receipt_long"
+                style="font-variation-settings: 'FILL' 1;">receipt_long</span> Auditoría
+            </a>
+          </nav>
+          </aside>
+
+          <main class="lg:ml-64 pt-16 flex-1 min-h-screen pb-20 lg:pb-0 flex flex-col">
+            <div class="p-4 sm:p-lg lg:p-xl space-y-6 lg:space-y-lg max-w-7xl mx-auto flex-1 w-full">
+
+              <header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                  <h2 class="font-h1 text-h1 text-on-surface">Auditoría</h2>
+                  <p class="font-body-md text-body-md text-slate-500 mt-1">Monitoreo técnico detallado de actividades y
+                    accesos al sistema.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-sm">
+                  <button
+                    class="flex-1 sm:flex-none justify-center flex items-center gap-xs px-4 py-2 bg-white border border-outline-variant rounded-xl font-button text-button text-slate-700 hover:bg-slate-50 transition-all"
+                    onclick="setTimeout(()=> SQ.toast('Reporte descargado correctamente.', 'info'), 1000)">
+                    <span class="material-symbols-outlined text-lg">download</span> Exportar Reporte
+                  </button>
+                  <button
+                    class="flex-1 sm:flex-none justify-center flex items-center gap-xs px-4 py-2 bg-primary-container text-white rounded-xl font-button text-button shadow-sm hover:opacity-90 active:scale-95 transition-all"
+                    onclick="actualizarAuditoria()">
+                    <span class="material-symbols-outlined text-lg">refresh</span> Actualizar
+                  </button>
+                </div>
+              </header>
+
+              <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-lg">
+                <article class="bg-white p-6 lg:p-lg rounded-xl border border-slate-100 shadow-sm">
+                  <div class="flex items-center justify-between mb-sm">
+                    <span class="text-slate-500 font-label-caps text-label-caps">EVENTOS TOTALES (24H)</span>
+                    <span class="p-2 bg-blue-50 text-blue-600 rounded-lg material-symbols-outlined">analytics</span>
+                  </div>
+                  <div class="text-h3 font-h3">14,292</div>
+                  <div class="text-xs text-green-600 font-medium mt-1">↑ 12% vs ayer</div>
+                </article>
+
+                <article class="bg-white p-6 lg:p-lg rounded-xl border border-slate-100 shadow-sm">
+                  <div class="flex items-center justify-between mb-sm">
+                    <span class="text-slate-500 font-label-caps text-label-caps">ALERTAS CRÍTICAS</span>
+                    <span class="p-2 bg-error-container text-error rounded-lg material-symbols-outlined">warning</span>
+                  </div>
+                  <div class="text-h3 font-h3 text-error">3</div>
+                  <div class="text-xs text-slate-400 font-medium mt-1">Sin resolver hoy</div>
+                </article>
+
+                <article class="bg-white p-6 lg:p-lg rounded-xl border border-slate-100 shadow-sm">
+                  <div class="flex items-center justify-between mb-sm">
+                    <span class="text-slate-500 font-label-caps text-label-caps">IPs ÚNICAS</span>
+                    <span class="p-2 bg-green-50 text-green-600 rounded-lg material-symbols-outlined">lan</span>
+                  </div>
+                  <div class="text-h3 font-h3">42</div>
+                  <div class="text-xs text-slate-400 font-medium mt-1">Conexiones activas</div>
+                </article>
+
+                <article class="bg-white p-6 lg:p-lg rounded-xl border border-slate-100 shadow-sm">
+                  <div class="flex items-center justify-between mb-sm">
+                    <span class="text-slate-500 font-label-caps text-label-caps">LOGIN EXITOSOS</span>
+                    <span
+                      class="p-2 bg-primary-fixed-dim text-on-primary-fixed-variant rounded-lg material-symbols-outlined">verified_user</span>
+                  </div>
+                  <div class="text-h3 font-h3">892</div>
+                  <div class="text-xs text-green-600 font-medium mt-1">99.2% de éxito</div>
+                </article>
+              </section>
+
+              <section
+                class="bg-white p-4 md:p-md rounded-xl border border-slate-100 shadow-sm flex flex-col md:flex-row flex-wrap items-end gap-4 md:gap-md">
+                <div class="w-full md:flex-1 md:min-w-[200px]">
+                  <label class="block text-xs font-semibold text-slate-500 mb-1 px-1">Rango de Fecha</label>
+                  <div class="relative">
+                    <span
+                      class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">calendar_today</span>
+                    <input
+                      class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-green-500/20"
+                      type="text" value="24 Oct, 2023 - 25 Oct, 2023" />
+                  </div>
+                </div>
+                <div class="w-full md:flex-1 md:min-w-[200px]">
+                  <label class="block text-xs font-semibold text-slate-500 mb-1 px-1">Tipo de Evento</label>
+                  <select
+                    class="w-full px-4 py-2.5 bg-slate-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-green-500/20 appearance-none">
+                    <option>Todos los eventos</option>
+                    <option>Modificación de precio</option>
+                    <option>Baja de usuario</option>
+                    <option>Cambio de permisos</option>
+                    <option>Inicio de sesión</option>
+                  </select>
+                </div>
+                <div class="w-full md:flex-1 md:min-w-[200px]">
+                  <label class="block text-xs font-semibold text-slate-500 mb-1 px-1">Usuario / ID</label>
+                  <input
+                    class="w-full px-4 py-2.5 bg-slate-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-green-500/20"
+                    placeholder="Filtrar por nombre o ID..." type="text" />
+                </div>
+                <div class="w-full md:w-auto flex pt-2 md:pt-0">
+                  <button
+                    class="w-full md:w-auto px-6 py-2.5 bg-slate-900 text-white rounded-lg font-button text-sm hover:bg-slate-800 transition-colors h-full"
+                    onclick="aplicarFiltros()">
+                    Aplicar Filtros
+                  </button>
+                </div>
+              </section>
+
+              <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left border-collapse min-w-[800px]">
+                    <thead>
+                      <tr class="bg-slate-50 border-b border-slate-200">
+                        <th class="px-6 py-4 font-label-caps text-label-caps text-slate-500">FECHA / HORA</th>
+                        <th class="px-6 py-4 font-label-caps text-label-caps text-slate-500">USUARIO</th>
+                        <th class="px-6 py-4 font-label-caps text-label-caps text-slate-500">ACCIÓN</th>
+                        <th class="px-6 py-4 font-label-caps text-label-caps text-slate-500">IP / UBICACIÓN</th>
+                        <th class="px-6 py-4 font-label-caps text-label-caps text-slate-500 text-right">ESTADO</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+
+                      <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-on-surface">25 Oct 2023</div>
+                          <div class="text-xs text-slate-400">14:32:05 (UTC-5)</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="flex items-center gap-3">
+                            <div
+                              class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">
+                              RM</div>
+                            <div>
+                              <div class="font-body-sm text-body-sm text-on-surface">Ricardo Mendoza</div>
+                              <div class="text-xs text-slate-400">ID: SG-9921</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-on-surface font-medium">Baja de usuario</div>
+                          <div class="text-xs text-slate-400">Socio #4410 (Inactivo por impago)</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-slate-600 font-mono">192.168.1.144</div>
+                          <div class="text-xs text-slate-400 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">location_on</span> CDMX, MX
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                          <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">Completado</span>
+                        </td>
+                      </tr>
+
+                      <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-on-surface">25 Oct 2023</div>
+                          <div class="text-xs text-slate-400">13:10:44 (UTC-5)</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="flex items-center gap-3">
+                            <div
+                              class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 text-xs font-bold">
+                              AL</div>
+                            <div>
+                              <div class="font-body-sm text-body-sm text-on-surface">Andrea López</div>
+                              <div class="text-xs text-slate-400">ID: SG-1022</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-on-surface font-medium">Modificación de precio
+                          </div>
+                          <div class="text-xs text-slate-400">Plan 'Anual VIP' ($450 -> $499)</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-slate-600 font-mono">201.141.22.18</div>
+                          <div class="text-xs text-slate-400 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">location_on</span> Guadalajara, MX
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                          <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">Completado</span>
+                        </td>
+                      </tr>
+
+                      <tr class="hover:bg-red-50/30 bg-red-50/10 transition-colors group">
+                        <td class="px-6 py-4 border-l-4 border-error">
+                          <div class="font-body-sm text-body-sm text-error">25 Oct 2023</div>
+                          <div class="text-xs text-error/60">04:12:00 (UTC-5)</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="flex items-center gap-3">
+                            <div
+                              class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-error text-xs font-bold">
+                              ?</div>
+                            <div>
+                              <div class="font-body-sm text-body-sm text-on-surface">Intento Fallido</div>
+                              <div class="text-xs text-slate-400">ID: Desconocido</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-error font-bold">Fuerza Bruta Detectada</div>
+                          <div class="text-xs text-error/60">5 intentos de login fallidos</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-error font-mono">45.223.11.02</div>
+                          <div class="text-xs text-error/60 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">public</span> Kiev, UA
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                          <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-container text-error">Bloqueado</span>
+                        </td>
+                      </tr>
+
+                      <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-on-surface">25 Oct 2023</div>
+                          <div class="text-xs text-slate-400">09:15:33 (UTC-5)</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="flex items-center gap-3">
+                            <div
+                              class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">
+                              SM</div>
+                            <div>
+                              <div class="font-body-sm text-body-sm text-on-surface">Soporte Maestro</div>
+                              <div class="text-xs text-slate-400">ID: SG-0001</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-on-surface font-medium">Cambio de permisos</div>
+                          <div class="text-xs text-slate-400">User ID #9921 -> Rol: Admin</div>
+                        </td>
+                        <td class="px-6 py-4">
+                          <div class="font-body-sm text-body-sm text-slate-600 font-mono">187.12.99.1</div>
+                          <div class="text-xs text-slate-400 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">location_on</span> Monterrey, MX
+                          </div>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                          <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">Completado</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <footer
+                  class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <span class="text-xs font-medium text-slate-500">Mostrando 1-10 de 1,294 registros</span>
+                  <div class="flex items-center gap-2">
+                    <button
+                      class="p-1.5 rounded border border-slate-300 text-slate-500 hover:bg-white transition-colors disabled:opacity-50"
+                      disabled>
+                      <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <button
+                      class="px-3 py-1 text-xs font-bold bg-white border border-green-600 text-green-600 rounded">1</button>
+                    <button
+                      class="px-3 py-1 text-xs font-medium text-slate-600 hover:bg-white rounded transition-colors">2</button>
+                    <button
+                      class="px-3 py-1 text-xs font-medium text-slate-600 hover:bg-white rounded transition-colors">3</button>
+                    <button
+                      class="p-1.5 rounded border border-slate-300 text-slate-500 hover:bg-white transition-colors">
+                      <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                  </div>
+                </footer>
+              </section>
+
+              <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-lg">
+
+                <article class="lg:col-span-2 bg-white p-6 lg:p-lg rounded-xl border border-slate-200 shadow-sm">
+                  <header class="flex items-center justify-between mb-6 lg:mb-lg">
+                    <h3 class="font-h3 text-h3">Distribución de Actividad</h3>
+                    <span class="text-xs text-slate-400">Últimos 7 días</span>
+                  </header>
+
+                  <div class="h-64 flex items-end justify-between gap-2 lg:gap-sm px-2">
+                    <div
+                      class="w-full bg-slate-50 rounded-t-lg relative group h-[40%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400 group-hover:text-primary transition-colors">
+                        LUN</div>
+                    </div>
+                    <div
+                      class="w-full bg-slate-50 rounded-t-lg relative group h-[60%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400 group-hover:text-primary transition-colors">
+                        MAR</div>
+                    </div>
+                    <div
+                      class="w-full bg-slate-50 rounded-t-lg relative group h-[55%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400 group-hover:text-primary transition-colors">
+                        MIE</div>
+                    </div>
+                    <div
+                      class="w-full bg-slate-50 rounded-t-lg relative group h-[85%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400 group-hover:text-primary transition-colors">
+                        JUE</div>
+                    </div>
+                    <div
+                      class="w-full bg-primary-container/20 rounded-t-lg relative group h-[100%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary transition-colors">
+                        HOY</div>
+                    </div>
+                    <div
+                      class="w-full bg-slate-50 rounded-t-lg relative group h-[30%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400 group-hover:text-primary transition-colors">
+                        SAB</div>
+                    </div>
+                    <div
+                      class="w-full bg-slate-50 rounded-t-lg relative group h-[25%] hover:bg-primary-container transition-colors">
+                      <div
+                        class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-slate-400 group-hover:text-primary transition-colors">
+                        DOM</div>
+                    </div>
+                  </div>
+                </article>
+
+                <article
+                  class="bg-slate-900 text-white p-6 lg:p-lg rounded-xl shadow-xl flex flex-col justify-between overflow-hidden relative min-h-[250px]">
+                  <div class="relative z-10">
+                    <span class="p-2 bg-white/10 rounded-lg material-symbols-outlined mb-4 inline-block">security</span>
+                    <h3 class="font-h3 text-h3">Seguridad Activa</h3>
+                    <p class="text-sm text-slate-400 mt-2">El firewall del sistema está operando al 100%. No se
+                      requieren acciones manuales urgentes.</p>
+                  </div>
+                  <div class="mt-6 lg:mt-lg relative z-10">
+                    <div class="flex justify-between text-xs mb-2">
+                      <span>Integridad de Logs</span>
+                      <span class="text-green-400">Verificada</span>
+                    </div>
+                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                      <div class="bg-green-500 h-full w-[98%]"></div>
+                    </div>
+                  </div>
+                  <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-green-500/20 rounded-full blur-3xl"></div>
+                </article>
+              </section>
+
+            </div>
+
+            <footer class="p-6 mt-auto border-t border-slate-200 bg-white text-center w-full">
+              <p class="text-xs text-slate-400 font-medium max-w-2xl mx-auto">
+                SquatGym Management System v4.2.0 • Protocolo de Auditoría ISO/IEC 27001 • Todos los logs están
+                encriptados y firmados digitalmente.
+              </p>
+            </footer>
+          </main>
+
+          <nav
+            class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.go('adminDashboard'); return false;">
+              <span class="material-symbols-outlined">dashboard</span>
+              <span class="text-[10px] mt-1 font-medium">Panel</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.go('adminUsuarios'); return false;">
+              <span class="material-symbols-outlined">group</span>
+              <span class="text-[10px] mt-1 font-medium">Socios</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.go('adminClases'); return false;">
+              <span class="material-symbols-outlined">calendar_month</span>
+              <span class="text-[10px] mt-1 font-medium">Clases</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+              onclick="SQ.go('adminFinanzas'); return false;">
+              <span class="material-symbols-outlined">payments</span>
+              <span class="text-[10px] mt-1 font-medium">Planes</span>
+            </button>
+            <button class="flex flex-col items-center text-green-600 p-2"
+              onclick="SQ.go('adminAuditoria'); return false;">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+              <span class="text-[10px] mt-1 font-bold">Auditoría</span>
+            </button>
+          </nav>
+
+          <div id="settingsMenuDropdown"
+            class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95"
+            style="visibility: hidden;">
+            <div class="py-2">
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">person</span>
+                <span class="text-body-md">Mi Perfil</span>
+              </button>
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">tune</span>
+                <span class="text-body-md">Preferencias</span>
+              </button>
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span class="text-body-md">Ayuda</span>
+              </button>
+              <button onclick="abrirOpcion()"
+                class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">settings</span>
+                <span class="text-body-md">Configuración</span>
+              </button>
+              <div class="border-t border-slate-100 my-1"></div>
+              <button onclick="SQ.logout();"
+                class="w-full flex items-center gap-md px-4 py-3 text-error hover:bg-error hover:bg-opacity-5 transition-colors text-left">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span class="text-body-md">Cerrar Sesión</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+            onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+          <script>
+
+            function aplicarFiltros() {
+              const tipoEventoSel = document.querySelector('select').value.toLowerCase();
+              const usuarioSearch = document.querySelector('input[placeholder="Filtrar por nombre o ID..."]').value.toLowerCase();
+              const filas = document.querySelectorAll("tbody tr");
+
+              let mostradas = 0;
+              filas.forEach(fila => {
+                const textoFila = fila.innerText.toLowerCase();
+                let coincideTipo = (tipoEventoSel === "todos los eventos" || textoFila.includes(tipoEventoSel));
+                let coincideUsuario = (usuarioSearch === "" || textoFila.includes(usuarioSearch));
+
+                if (coincideTipo && coincideUsuario) {
+                  fila.style.display = "";
+                  mostradas++;
+                } else {
+                  fila.style.display = "none";
+                }
+              });
+              if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast(`Filtros aplicados. Mostrando ${mostradas} registros.`, 'success');
+            }
+
+            function actualizarAuditoria() {
+              if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast('Obteniendo nuevos registros del sistema...', 'info');
+              setTimeout(() => {
+                if (typeof SQ !== 'undefined' && SQ.toast) SQ.toast('Logs de auditoría actualizados', 'success');
+              }, 800);
+            }
+          </script>
+
+</body>
+
+</html>

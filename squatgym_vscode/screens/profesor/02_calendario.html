@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calendario Semanal - SquatGym</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#6d7b6c",
+                        "surface-bright": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#3d4756",
+                        "secondary-container": "#d6e0f3",
+                        "secondary-fixed-dim": "#bdc7d9",
+                        "secondary-fixed": "#d9e3f6",
+                        "secondary": "#555f6f",
+                        "primary-fixed": "#6bff8f",
+                        "inverse-primary": "#4ae176",
+                        "surface-container-low": "#f0f3ff",
+                        "surface-container-high": "#e2e8f8",
+                        "tertiary": "#005ac2",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "surface-container-highest": "#dce2f3",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "background": "#f9f9ff",
+                        "outline-variant": "#bccbb9",
+                        "tertiary-container": "#82abff",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#e7eefe",
+                        "on-background": "#151c27",
+                        "inverse-on-surface": "#ebf1ff",
+                        "surface-tint": "#006e2f",
+                        "primary": "#006e2f",
+                        "primary-container": "#22c55e",
+                        "on-secondary-container": "#596373",
+                        "on-primary-fixed": "#002109",
+                        "surface-dim": "#d3daea",
+                        "primary-fixed-dim": "#4ae176",
+                        "on-surface-variant": "#3d4a3d",
+                        "inverse-surface": "#2a313d",
+                        "surface-variant": "#dce2f3",
+                        "on-secondary-fixed": "#121c2a",
+                        "on-primary-container": "#004b1e",
+                        "on-surface": "#151c27",
+                        "on-tertiary-container": "#003d88",
+                        "on-primary-fixed-variant": "#005321",
+                        "tertiary-fixed": "#d8e2ff",
+                        "surface": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "3xl": "64px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "margin": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "button": ["Lexend"],
+                        "h1": ["Lexend"],
+                        "body-lg": ["Lexend"],
+                        "h3": ["Lexend"],
+                        "label-caps": ["Lexend"],
+                        "h2": ["Lexend"],
+                        "body-sm": ["Lexend"],
+                        "body-md": ["Lexend"]
+                    },
+                    "fontSize": {
+                        "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }],
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+    </style>
+<script src="../../nav.js"></script>
+<script src="../../classStore.js"></script>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="hidden md:flex bg-white dark:bg-slate-900 h-screen w-64 fixed left-0 top-0 border-r border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none flex-col py-6 gap-2 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-h3 text-h3 font-extrabold text-green-600 dark:text-green-500">SquatGym</h1>
+<p class="font-body-sm text-body-sm text-slate-500">Panel del Profesor</p>
+</div>
+<nav class="flex-1 flex flex-col gap-sm pb-4">
+<a class="flex items-center gap-md px-6 py-3 font-['Lexend'] text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Panel
+            </a>
+<a class="flex items-center gap-md px-6 py-3 font-['Lexend'] text-sm font-medium bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-r-4 border-green-500 active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+                Calendario
+            </a>
+<a class="flex items-center gap-md px-6 py-3 font-['Lexend'] text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 active:translate-x-1 duration-150 mt-auto border-t border-slate-100 dark:border-slate-800" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Cerrar Sesión
+            </a>
+</nav>
+</aside>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col md:ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md font-['Lexend'] antialiased top-0 z-40 border-b border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between px-6 h-16 w-full sticky">
+<div class="flex items-center gap-md">
+<!-- Left side empty as logo is in sidebar, or search bar could be here -->
+</div>
+<div class="flex items-center gap-md text-slate-500"><div class="relative hidden md:block mr-sm">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="pl-10 pr-4 h-10 bg-surface-container-low border-outline-variant rounded-full text-body-sm focus:ring-primary-container w-64" placeholder="Buscar..." type="text"/>
+</div>
+<button class="hover:bg-slate-50 p-sm rounded-full transition-all duration-200 active:scale-[0.97]">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-slate-50 p-sm rounded-full transition-all duration-200 active:scale-[0.97]">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-sm cursor-pointer hover:ring-2 ring-primary-container transition-all">
+<img alt="Teacher Profile Avatar" class="w-full h-full object-cover" data-alt="Portrait of a fit, professional male gym instructor smiling slightly, well-lit studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKU1h_U2QTe39h6rsJ-JMzJf5asFhcWdzJfJ6DtGvnvTZZbzKZOk9pd_k5Iaos--UUxFtLfm8Sax30i5wTQNqcVRMgid4mW7Oy1ZyokyTKnys5axE17nuOzEbwU8ofAUL_L-FG6Rjm0J5DrGMD9-yVVIABsAZCPLTR6amKkQ3awqYyYVBb3wepQ7EqjIUV4UtoG3-H9D9mRZ7EJwh9-U2RT-vv_3ETjj3ly1i1w43OaBtJWkMDl1KxyHIPYH2hNL6dmStphN_veXc"/>
+</div>
+</header>
+<main class="flex-1 p-margin bg-background">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-lg mb-xl">
+<div>
+<h2 class="font-h2 text-h2 text-on-surface mb-xs">Calendario</h2>
+<p class="font-body-md text-body-md text-secondary">Tus clases asignadas por dia y sede.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex bg-surface-container-low rounded-lg p-1 border border-slate-200">
+<button id="sedeFilterButton" class="px-4 py-2 font-body-sm text-body-sm rounded-md bg-white shadow-sm text-on-surface font-medium">Mi sede</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<div class="lg:col-span-3 flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-lg border border-slate-200 shadow-[0_4px_20px_-4px_rgba(31,41,55,0.05)]">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-h3 text-h3 text-on-surface text-lg">Octubre 2023</h3>
+<div class="flex gap-1">
+<button class="p-1 text-secondary hover:bg-surface-container rounded-md"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
+<button class="p-1 text-secondary hover:bg-surface-container rounded-md"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center font-body-sm text-body-sm text-secondary mb-2">
+<div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center font-body-sm text-body-sm">
+<div class="py-1 text-slate-300">29</div><div class="py-1 text-slate-300">30</div><div class="py-1 text-slate-300">31</div><div class="py-1">1</div><div class="py-1">2</div><div class="py-1">3</div><div class="py-1">4</div>
+<div class="py-1">5</div><div class="py-1">6</div><div class="py-1">7</div><div class="py-1">8</div><div class="py-1">9</div><div class="py-1">10</div><div class="py-1">11</div>
+<div class="py-1">12</div><div class="py-1 bg-primary-container text-white rounded-full font-medium">13</div><div class="py-1">14</div><div class="py-1">15</div><div class="py-1">16</div><div class="py-1">17</div><div class="py-1">18</div>
+<div class="py-1">19</div><div class="py-1">20</div><div class="py-1">21</div><div class="py-1">22</div><div class="py-1">23</div><div class="py-1">24</div><div class="py-1">25</div>
+</div>
+</div>
+
+</div>
+<div class="lg:col-span-9 bg-surface-container-lowest rounded-xl border border-slate-200 shadow-[0_4px_20px_-4px_rgba(31,41,55,0.05)] overflow-hidden flex flex-col">
+<div class="grid grid-cols-6 border-b border-slate-200 bg-surface-bright">
+<div class="p-4 border-r border-slate-100 flex items-center justify-center">
+<span class="font-label-caps text-label-caps text-secondary">HORA</span>
+</div>
+<div class="p-4 border-r border-slate-100 text-center">
+<div class="font-label-caps text-label-caps text-secondary mb-1">LUN</div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">13</div>
+</div>
+<div class="p-4 border-r border-slate-100 text-center bg-green-50/50">
+<div class="font-label-caps text-label-caps text-primary-container mb-1">MAR</div>
+<div class="font-body-lg text-body-lg text-primary-container font-medium">14</div>
+</div>
+<div class="p-4 border-r border-slate-100 text-center">
+<div class="font-label-caps text-label-caps text-secondary mb-1">MIE</div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">15</div>
+</div>
+<div class="p-4 border-r border-slate-100 text-center">
+<div class="font-label-caps text-label-caps text-secondary mb-1">JUE</div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">16</div>
+</div>
+<div class="p-4 text-center">
+<div class="font-label-caps text-label-caps text-secondary mb-1">VIE</div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">17</div>
+</div>
+</div>
+<div class="overflow-y-auto h-[300px] relative w-full">
+<div class="absolute inset-0 grid grid-cols-6 pointer-events-none min-h-[1400px]">
+<div class="border-r border-slate-100"></div>
+<div class="border-r border-slate-100"></div>
+<div class="border-r border-slate-100 bg-green-50/20"></div>
+<div class="border-r border-slate-100"></div>
+<div class="border-r border-slate-100"></div>
+<div></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">08:00 AM</span>
+</div>
+<div class="p-2">
+<div class="bg-blue-50 border border-blue-200 rounded-lg p-3 h-full flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group">
+<div>
+<div class="font-label-caps text-label-caps text-blue-700 mb-1">YOGA FLOW</div>
+<div class="font-body-sm text-body-sm text-blue-900 font-medium">Sarah J.</div>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-blue-600 text-xs">15/20</span>
+<span class="material-symbols-outlined text-blue-400 text-sm" data-icon="group">group</span>
+</div>
+</div>
+</div>
+<div class="p-2"></div>
+<div class="p-2">
+<div class="bg-orange-50 border border-orange-200 rounded-lg p-3 h-full flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group">
+<div>
+<div class="font-label-caps text-label-caps text-orange-700 mb-1">HIIT BLAST</div>
+<div class="font-body-sm text-body-sm text-orange-900 font-medium">Mike T.</div>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-orange-600 text-xs">20/20</span>
+<span class="material-symbols-outlined text-orange-500 text-sm" data-icon="local_fire_department">local_fire_department</span>
+</div>
+</div>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">09:00 AM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2">
+<div class="bg-purple-50 border border-purple-200 rounded-lg p-3 h-full flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group">
+<div>
+<div class="font-label-caps text-label-caps text-purple-700 mb-1">PILATES</div>
+<div class="font-body-sm text-body-sm text-purple-900 font-medium">Elena R.</div>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-purple-600 text-xs">8/12</span>
+</div>
+</div>
+</div>
+<div class="p-2"></div>
+<div class="p-2">
+<div class="bg-blue-50 border border-blue-200 rounded-lg p-3 h-full flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group">
+<div>
+<div class="font-label-caps text-label-caps text-blue-700 mb-1">YOGA BASICS</div>
+<div class="font-body-sm text-body-sm text-blue-900 font-medium">Sarah J.</div>
+</div>
+</div>
+</div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">10:00 AM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2">
+<div class="bg-orange-50 border border-orange-200 rounded-lg p-3 h-full flex flex-col justify-between hover:shadow-md transition-shadow cursor-pointer group">
+<div>
+<div class="font-label-caps text-label-caps text-orange-700 mb-1">CROSSFIT</div>
+<div class="font-body-sm text-body-sm text-orange-900 font-medium">Mike T.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">11:00 AM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">12:00 PM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">01:00 PM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">02:00 PM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">03:00 PM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center">
+<span class="font-body-sm text-body-sm text-secondary">04:00 PM</span>
+</div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+<div class="p-2"></div>
+</div>
+<!-- 05:00 PM -->
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center"><span class="font-body-sm text-body-sm text-secondary">05:00 PM</span></div>
+<div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div>
+</div>
+<!-- 06:00 PM -->
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center"><span class="font-body-sm text-body-sm text-secondary">06:00 PM</span></div>
+<div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div>
+</div>
+<!-- 07:00 PM -->
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center"><span class="font-body-sm text-body-sm text-secondary">07:00 PM</span></div>
+<div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div>
+</div>
+<!-- 08:00 PM -->
+<div class="grid grid-cols-6 border-b border-slate-100 min-h-[100px] relative z-10">
+<div class="p-4 text-center flex items-start justify-center"><span class="font-body-sm text-body-sm text-secondary">08:00 PM</span></div>
+<div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div><div class="p-2"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<script>
+const store = window.SQClassStore;
+const profesorId = SQ.state.profesorId || 'p1';
+const profesorSede = store.getProfesor(profesorId)?.sedeId || null;
+const today = new Date().toISOString().slice(0, 10);
+let selectedSede = profesorSede;
+
+const fillCards = () => {
+  const cards = [...document.querySelectorAll('.cursor-pointer.group')];
+  const clases = store.listClasses({ profesorId, fecha: today, sedeId: selectedSede });
+
+  cards.forEach((card, idx) => {
+    const clase = clases[idx];
+    if (!clase) {
+      card.classList.add('hidden');
+      card.closest('.p-2')?.classList.add('hidden');
+      return;
+    }
+    const timeEl = card.querySelector('.font-label-caps');
+    const titleEl = card.querySelector('h4');
+    const locationEl = card.querySelector('p');
+    const profEl = card.querySelector('.font-body-sm.text-body-sm.font-medium');
+    const countEl = card.querySelector('span[class*="rounded"]');
+    const availability = store.getAvailability(clase);
+
+    if (timeEl) timeEl.textContent = `${clase.horaInicio} - ${clase.horaFin}`;
+    if (titleEl) titleEl.textContent = clase.nombre;
+    if (profEl) profEl.textContent = store.getProfesor(clase.profesorId)?.nombre || 'Profesor';
+    if (locationEl) locationEl.lastChild.textContent = ` ${store.getSede(clase.sedeId)?.nombre || 'Sede'}`;
+    if (countEl) countEl.textContent = `${availability.inscriptos}/${availability.total}`;
+    card.dataset.classId = clase.id;
+    card.classList.remove('hidden');
+    card.closest('.p-2')?.classList.remove('hidden');
+  });
+};
+
+fillCards();
+
+const sedeButton = document.getElementById('sedeFilterButton');
+if (sedeButton) {
+  const sedeName = store.getSede(profesorSede)?.nombre;
+  sedeButton.textContent = sedeName ? `Mi sede · ${sedeName}` : 'Mi sede';
+}
+
+document.querySelectorAll('a[href="#"]').forEach(a => {
+  const ic = a.querySelector('.material-symbols-outlined')?.textContent?.trim();
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    if (ic === 'logout') { SQ.logout(); return; }
+    if (ic === 'dashboard') { SQ.go('panelProfesor'); return; }
+    SQ.toast('No disponible en el demo', 'info');
+  });
+});
+
+document.querySelectorAll('button').forEach(btn => {
+  const txt = btn.textContent.trim();
+  const ic  = btn.querySelector?.('.material-symbols-outlined')?.textContent?.trim();
+
+  if (txt.includes('Nueva Clase') || txt.includes('+ Nueva')) {
+    btn.addEventListener('click', () => SQ.toast('Solo Secretaría puede crear clases', 'info'));
+  }
+  if (ic === 'chevron_left' || ic === 'chevron_right') {
+    btn.addEventListener('click', () => SQ.toast('Navegación de semana – demo', 'info'));
+  }
+  if (ic === 'notifications') {
+    btn.addEventListener('click', () => SQ.toast('No hay notificaciones nuevas', 'info'));
+  }
+  if (ic === 'settings') {
+    btn.addEventListener('click', () => SQ.toast('No disponible en el demo', 'info'));
+  }
+});
+
+// Clic en bloques de clase del calendario → ir a registro de asistencia
+document.querySelectorAll('.cursor-pointer.group').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => {
+    const classId = card.dataset.classId;
+    if (!classId) return;
+    SQ.go('registroAsistencia', { claseId: classId });
+  });
+});
+</script>
+</body></html>

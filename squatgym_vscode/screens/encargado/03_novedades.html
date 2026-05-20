@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <title>Novedades | SquatGym</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#4ae176",
+            "on-surface": "#151c27",
+            "on-error": "#ffffff",
+            "surface": "#f9f9ff",
+            "inverse-primary": "#4ae176",
+            "on-primary-container": "#004b1e",
+            "error-container": "#ffdad6",
+            "error": "#ba1a1a",
+            "primary-container": "#22c55e",
+            "background": "#f9f9ff",
+            "secondary": "#555f6f",
+            "on-surface-variant": "#3d4a3d",
+            "on-background": "#151c27",
+            "on-primary": "#ffffff",
+            "primary": "#006e2f",
+            "surface-container-low": "#f0f3ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "xs": "4px",
+            "2xl": "48px",
+            "xl": "32px",
+            "margin": "32px",
+            "3xl": "64px",
+            "sm": "8px",
+            "lg": "24px",
+            "md": "16px",
+            "gutter": "24px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "button": ["Lexend"],
+            "h2": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h3": ["Lexend"]
+          },
+          fontSize: {
+            "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }],
+            "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+            "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+      background-color: #f9f9ff;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+
+  <script src="../../nav.js"></script>
+  <script>
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    function mostrarToastModulo() {
+      SQ.toast('Módulo en desarrollo', 'info');
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+  </script>
+</head>
+
+<body class="font-body-md text-body-md overflow-x-hidden flex min-h-screen">
+
+  <header
+    class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-6 w-full">
+      <div class="flex items-center gap-4">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full"
+          onclick="mostrarToastModulo()">
+          <span class="material-symbols-outlined text-slate-500">notifications</span>
+        </button>
+        <button
+          class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold"
+          onclick="abrirMenuConfiguracion(event)">
+          E
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <aside
+    class="hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6 space-y-2">
+    <div class="mb-lg px-xs mt-2">
+      <div class="flex items-center gap-sm">
+        <div>
+          <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+          <p class="text-xs text-slate-500">Portal de Encargado</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 flex flex-col gap-sm mt-md">
+      <a href="#" onclick="SQ.go('encargadoPanel'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">dashboard</span> Panel
+      </a>
+      <a href="#" onclick="SQ.go('encargadoClases'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">calendar_month</span> Gestión de Clases
+      </a>
+      <a href="#" onclick="SQ.go('encargadoProfes'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">people</span> Gestión de Profesores
+      </a>
+      <a href="#" onclick="SQ.toast('Ya se encuentra en Novedades'); return false;"
+        class="flex items-center gap-md px-md py-sm rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="campaign"
+          style="font-variation-settings: 'FILL' 1;">campaign</span> Novedades
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción.'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">storefront</span> Inventario Kiosco
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción.'); return false;"
+        class="flex items-center gap-4 px-4 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">people</span> Socios
+      </a>
+    </nav>
+  </aside>
+
+  <main class="lg:ml-64 pt-16 flex-1 min-h-screen flex flex-col pb-24 lg:pb-0">
+    <div class="p-6 md:p-8 space-y-6 flex-1 max-w-4xl mx-auto w-full">
+
+      <header class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 class="font-h1 text-3xl font-bold text-on-surface">Novedades y Anuncios</h1>
+          <p class="font-body-md text-secondary mt-2">Mantente al tanto de las últimas actualizaciones corporativas,
+            políticas y reportes.</p>
+        </div>
+      </header>
+
+      <div class="space-y-6">
+
+        <article
+          class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 overflow-hidden relative group hover:border-green-300 transition-colors">
+          <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+            <span class="material-symbols-outlined text-6xl text-green-600">new_releases</span>
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">Importante</span>
+            <span class="text-sm text-slate-500 font-medium">18 de Mayo, 2026</span>
+          </div>
+          <h3 class="text-xl font-bold text-on-surface mb-2">Nuevo Protocolo de Reemplazos</h3>
+          <p class="text-slate-600 leading-relaxed">
+            A partir de esta semana, todos los reemplazos de profesores titulares deberán realizarse a través de la
+            nueva plataforma de <strong>Gestión de Clases</strong>. Esto asegurará que el sistema notifique
+            instantáneamente al reemplazante y actualice el cronograma de los alumnos. El viejo sistema de planillas de
+            papel queda oficialmente descontinuado.
+          </p>
+        </article>
+
+        <article
+          class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 overflow-hidden relative group hover:border-blue-300 transition-colors">
+          <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+            <span class="material-symbols-outlined text-6xl text-blue-600">build</span>
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full">Mantenimiento</span>
+            <span class="text-sm text-slate-500 font-medium">15 de Mayo, 2026</span>
+          </div>
+          <h3 class="text-xl font-bold text-on-surface mb-2">Reparación de Aire Acondicionado en Sala B</h3>
+          <p class="text-slate-600 leading-relaxed">
+            El equipo técnico estará realizando mantenimiento preventivo de los equipos de ventilación en la Sala B
+            durante el fin de semana del 23 de Mayo. Si tienes clases programadas allí, por favor considera reasignarlas
+            a los Estudios 1 o 2 utilizando el sistema de actualización de cronograma.
+          </p>
+        </article>
+
+        <article
+          class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 overflow-hidden relative group hover:border-slate-300 transition-colors">
+          <div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+            <span class="material-symbols-outlined text-6xl text-slate-600">celebration</span>
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="px-3 py-1 bg-slate-100 text-slate-800 text-xs font-bold rounded-full">General</span>
+            <span class="text-sm text-slate-500 font-medium">10 de Mayo, 2026</span>
+          </div>
+          <h3 class="text-xl font-bold text-on-surface mb-2">¡Récord de Asistencia!</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Queremos felicitar a todos los encargados de sede. Durante el mes de Abril hemos logrado un récord histórico
+            de 12,500 asistencias totales, con un nivel de satisfacción de alumnos del 98%. Sigamos manteniendo nuestros
+            altos estándares de atención y cuidado de las instalaciones.
+          </p>
+        </article>
+
+      </div>
+
+    </div>
+  </main>
+
+  <nav
+    class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('encargadoPanel'); return false;">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="text-[10px] mt-1 font-medium">Panel</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('encargadoClases'); return false;">
+      <span class="material-symbols-outlined">calendar_month</span>
+      <span class="text-[10px] mt-1 font-medium">Clases</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.go('encargadoProfes'); return false;">
+      <span class="material-symbols-outlined">people</span>
+      <span class="text-[10px] mt-1 font-medium">Profesores</span>
+    </button>
+    <button class="flex flex-col items-center text-green-600 p-2"
+      onclick="SQ.toast('Ya se encuentra en Novedades'); return false;">
+      <span class="material-symbols-outlined" data-icon="calendar_month"
+        style="font-variation-settings: 'FILL' 1;">campaign</span>
+      <span class="text-[10px] mt-1 font-bold">Novedades</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción.'); return false;">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="text-[10px] mt-1 font-medium">Inventario Kiosco</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors"
+      onclick="SQ.toast('Módulo en construcción.'); return false;">
+      <span class="material-symbols-outlined">people</span>
+      <span class="text-[10px] mt-1 font-medium">Socios</span>
+    </button>
+  </nav>
+
+  <!-- Menú Flotante Configuración -->
+  <div id="settingsMenuDropdown"
+    class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95"
+    style="visibility: hidden;">
+    <div class="py-2">
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">person</span>
+        <span class="text-sm font-medium">Mi Perfil</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">tune</span>
+        <span class="text-sm font-medium">Preferencias</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">help</span>
+        <span class="text-sm font-medium">Ayuda</span>
+      </button>
+      <button onclick="abrirOpcion()"
+        class="w-full flex items-center gap-3 px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">settings</span>
+        <span class="text-sm font-medium">Configuración</span>
+      </button>
+      <div class="border-t border-slate-100 my-1"></div>
+      <button onclick="SQ.logout();"
+        class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors text-left font-bold">
+        <span class="material-symbols-outlined text-lg">logout</span>
+        <span class="text-sm">Cerrar Sesión</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+    onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+</body>
+
+</html>

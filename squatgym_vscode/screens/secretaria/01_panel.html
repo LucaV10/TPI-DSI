@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Panel | SquatGym</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#6bff8f",
+            "tertiary-fixed-dim": "#adc6ff",
+            "surface-container-lowest": "#ffffff",
+            "on-error": "#ffffff",
+            "surface-container": "#e7eefe",
+            "surface-container-high": "#e2e8f8",
+            "on-tertiary-container": "#003d88",
+            "surface-bright": "#f9f9ff",
+            "on-primary": "#ffffff",
+            "surface-dim": "#d3daea",
+            "tertiary-container": "#82abff",
+            "primary-fixed-dim": "#4ae176",
+            "background": "#f9f9ff",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#121c2a",
+            "inverse-primary": "#4ae176",
+            "secondary": "#555f6f",
+            "secondary-container": "#d6e0f3",
+            "surface-container-low": "#f0f3ff",
+            "error-container": "#ffdad6",
+            "tertiary-fixed": "#d8e2ff",
+            "tertiary": "#005ac2",
+            "surface": "#f9f9ff",
+            "on-primary-fixed-variant": "#005321",
+            "on-surface": "#151c27",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed-variant": "#3d4756",
+            "surface-variant": "#dce2f3",
+            "on-secondary": "#ffffff",
+            "inverse-surface": "#2a313d",
+            "secondary-fixed-dim": "#bdc7d9",
+            "on-tertiary-fixed": "#001a42",
+            "inverse-on-surface": "#ebf1ff",
+            "on-background": "#151c27",
+            "primary": "#006e2f",
+            "outline-variant": "#bccbb9",
+            "primary-container": "#22c55e",
+            "surface-container-highest": "#dce2f3",
+            "on-primary-fixed": "#002109",
+            "surface-tint": "#006e2f",
+            "secondary-fixed": "#d9e3f6",
+            "on-surface-variant": "#3d4a3d",
+            "on-primary-container": "#004b1e",
+            "on-tertiary-fixed-variant": "#004395",
+            "error": "#ba1a1a",
+            "outline": "#6d7b6c",
+            "on-secondary-container": "#596373"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "md": "16px",
+            "3xl": "64px",
+            "xs": "4px",
+            "sm": "8px",
+            "lg": "24px",
+            "gutter": "24px",
+            "margin": "32px",
+            "xl": "32px",
+            "2xl": "48px",
+            "base": "4px"
+          },
+          fontFamily: {
+            "button": ["Lexend"],
+            "body-md": ["Lexend"],
+            "body-lg": ["Lexend"],
+            "label-caps": ["Lexend"],
+            "h1": ["Lexend"],
+            "body-sm": ["Lexend"],
+            "h3": ["Lexend"],
+            "h2": ["Lexend"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+  
+  <script src="../../nav.js"></script>
+  <script src="../../classStore.js"></script>
+  
+  <script>
+    // Gestión del estado del menú de configuración (Dropdown)
+    function abrirMenuConfiguracion(event) {
+      event.preventDefault();
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+      
+      dropdown.style.visibility = 'visible';
+      dropdown.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+      
+      overlay.style.visibility = 'visible';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cerrarMenuConfiguracion() {
+      const dropdown = document.getElementById('settingsMenuDropdown');
+      const overlay = document.getElementById('menuOverlay');
+      
+      dropdown.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      dropdown.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+      
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.classList.remove('opacity-100', 'pointer-events-auto');
+      
+      setTimeout(() => {
+        dropdown.style.visibility = 'hidden';
+        overlay.style.visibility = 'hidden';
+      }, 200);
+    }
+
+    function abrirOpcion() {
+      cerrarMenuConfiguracion();
+      SQ.toast('Funcionalidad en desarrollo', 'info');
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        cerrarMenuConfiguracion();
+      }
+    });
+
+    // === NUEVA LÓGICA: SIMULACIÓN DE CONTROL DE ACCESO ===
+    function verificarAcceso(event) {
+      if(event) event.preventDefault();
+      
+      const input = document.getElementById('dniInput');
+      const resultDiv = document.getElementById('resultadoAcceso');
+      const dni = input.value.trim();
+
+      if(!dni) {
+        input.classList.add('ring-2', 'ring-red-500');
+        setTimeout(() => input.classList.remove('ring-2', 'ring-red-500'), 1000);
+        return;
+      }
+
+      // Limpiamos el resultado anterior temporalmente para la animación
+      resultDiv.classList.add('hidden');
+      resultDiv.classList.remove('animate-fade-in');
+
+      // Pequeño timeout para simular "carga"
+      setTimeout(() => {
+        // Lógica de simulación: Si el DNI termina en 0, lo tomamos como Deudor
+        const esDeudor = dni.endsWith('0');
+
+        if(esDeudor) {
+          resultDiv.className = 'mt-4 p-4 rounded-xl border border-red-200 bg-red-50 flex items-start sm:items-center gap-4 animate-fade-in';
+          resultDiv.innerHTML = `
+            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">block</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <h4 class="font-bold text-red-700 text-lg">Acceso Denegado</h4>
+                <span class="px-2 py-0.5 rounded-full bg-red-200 text-red-800 text-[10px] font-bold uppercase tracking-wider">Deudor</span>
+              </div>
+              <p class="text-sm text-red-600 font-medium">El alumno registra una cuota impaga (Plan Musculación vencido hace 5 días).</p>
+            </div>
+            <button class="shrink-0 px-4 py-2 bg-white border border-red-200 text-red-700 text-sm font-bold rounded-lg shadow-sm hover:bg-red-50 transition-colors">
+              Cobrar
+            </button>
+          `;
+        } else {
+          resultDiv.className = 'mt-4 p-4 rounded-xl border border-green-200 bg-green-50 flex items-start sm:items-center gap-4 animate-fade-in';
+          resultDiv.innerHTML = `
+            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <h4 class="font-bold text-green-700 text-lg">Acceso Permitido</h4>
+                <span class="px-2 py-0.5 rounded-full bg-green-200 text-green-800 text-[10px] font-bold uppercase tracking-wider">Al Día</span>
+              </div>
+              <p class="text-sm text-green-700"><strong>Valeria Ruiz</strong>. Plan Full Activo. Tiene reserva para clase de Pilates (18:00hs).</p>
+            </div>
+            <button class="shrink-0 px-4 py-2 bg-green-600 text-white text-sm font-bold rounded-lg shadow-sm hover:bg-green-700 transition-colors">
+              Ingresar
+            </button>
+          `;
+        }
+        
+        resultDiv.classList.remove('hidden');
+        input.value = ''; // Limpiamos el input
+      }, 300);
+    }
+  </script>
+</head>
+
+<body class="bg-background text-on-background antialiased flex min-h-screen overflow-x-hidden">
+
+  <!-- TopNavBar Shell -->
+  <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 z-40 fixed w-full">
+    <div class="flex justify-between items-center h-16 px-4 md:px-6 w-full">
+      <div class="flex items-center gap-lg">
+        <span class="text-xl font-bold tracking-tight text-green-600 dark:text-green-500 font-lexend antialiased">
+          SquatGym
+        </span>
+      </div>
+      
+      <div class="flex items-center gap-2 md:gap-md">
+        <button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-150 rounded-full">
+          <span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+        </button>
+        <button class="w-8 h-8 rounded-full bg-green-100 border border-green-200 flex items-center justify-center text-green-700 font-bold" onclick="abrirMenuConfiguracion(event)">
+          S
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SideNavBar Component -->
+  <aside class="hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 font-lexend text-sm font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6 space-y-2">
+    <div class="mb-lg px-xs mt-2">
+      <div class="flex items-center gap-sm">
+        <div>
+          <h2 class="text-xl font-bold" style="color: #22C55E;">SquatGym</h2>
+          <p class="text-xs text-slate-500">Portal de Secretaria</p>
+        </div>
+      </div>
+    </div>
+    
+    <nav class="flex-1 flex flex-col gap-sm mt-md">
+      <a href="#" onclick="SQ.go('secrePanel'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg bg-green-50 text-green-700 border-r-4 border-green-600 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span> Panel de Control
+      </a>
+      <a href="#" onclick="SQ.go('secreClases'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="class">class</span> Gestión de Clases
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="Group">group</span> Alumnos
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="payments">payments</span> Pagos
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="storefront">storefront</span> Kiosco
+      </a>
+      <a href="#" onclick="SQ.toast('Módulo en construcción', 'info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined" data-icon="receipt_long">badge</span> Personal
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ============================================== -->
+  <!-- MAIN CONTENT: DASHBOARD SECRETARIA           -->
+  <!-- ============================================== -->
+  <main class="lg:ml-64 pt-16 flex-1 min-h-screen flex flex-col pb-20 lg:pb-0">
+    <div class="p-4 sm:p-lg md:p-xl space-y-6 lg:space-y-8 flex-1 max-w-7xl mx-auto w-full">
+      
+      <!-- Page Header -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold text-slate-900">Bienvenida, Secretaria</h1>
+          <p class="text-slate-500 mt-1">Gestión diaria, accesos y estado general de la sede.</p>
+        </div>
+        <div class="bg-white border border-slate-200 shadow-sm rounded-xl px-4 py-2 flex items-center gap-3 w-fit">
+          <span class="material-symbols-outlined text-slate-400">calendar_month</span>
+          <p class="font-medium text-slate-700">Miércoles, 15 Mayo</p>
+        </div>
+      </div>
+
+      <!-- GRID PRINCIPAL (Top: Buscador y Alertas) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- SECCIÓN 1: Control de Acceso Rápido -->
+        <div class="lg:col-span-7 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+              </div>
+              <h2 class="text-lg font-bold text-slate-900">Control de Acceso</h2>
+            </div>
+            <p class="text-sm text-slate-500 mb-6">Ingresa el DNI del alumno para verificar su estado de cuenta y planes vigentes.</p>
+            
+            <form onsubmit="verificarAcceso(event)" class="flex flex-col sm:flex-row gap-3">
+              <div class="relative flex-1">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined">badge</span>
+                <input id="dniInput" type="number" placeholder="Ej: 38123456" class="w-full py-3 pl-12 pr-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-slate-700 font-medium" />
+              </div>
+              <button type="submit" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 active:scale-95 transition-all whitespace-nowrap">
+                Verificar
+              </button>
+            </form>
+          </div>
+          
+          <!-- Contenedor del Resultado (Oculto por defecto) -->
+          <div id="resultadoAcceso" class="hidden mt-4">
+            <!-- El JS inyecta el contenido aquí -->
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: Alertas Rápidas -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+              </div>
+              <h2 class="text-lg font-bold text-slate-900">Alertas Recientes</h2>
+            </div>
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded-full">3 Nuevas</span>
+          </div>
+
+          <ul class="space-y-4">
+            <!-- Alerta 1 -->
+            <li class="flex items-start gap-3 p-3 bg-orange-50/50 border border-orange-100 rounded-lg">
+              <span class="material-symbols-outlined text-orange-500 text-[20px] mt-0.5">warning</span>
+              <div>
+                <p class="text-sm font-bold text-slate-900">Inasistencias Frecuentes</p>
+                <p class="text-xs text-slate-600 mt-0.5">El alumno <strong>Juan Pérez</strong> faltó a 4 de sus últimas 5 clases de Funcional.</p>
+              </div>
+            </li>
+            <!-- Alerta 2 -->
+            <li class="flex items-start gap-3 p-3 bg-red-50/50 border border-red-100 rounded-lg">
+              <span class="material-symbols-outlined text-red-500 text-[20px] mt-0.5">credit_card_off</span>
+              <div>
+                <p class="text-sm font-bold text-slate-900">Pago Rechazado</p>
+                <p class="text-xs text-slate-600 mt-0.5">El débito automático de <strong>Sofía Gómez</strong> fue denegado por el banco.</p>
+              </div>
+            </li>
+            <!-- Alerta 3 -->
+            <li class="flex items-start gap-3 p-3 bg-slate-50 border border-slate-100 rounded-lg">
+              <span class="material-symbols-outlined text-slate-400 text-[20px] mt-0.5">inventory_2</span>
+              <div>
+                <p class="text-sm font-bold text-slate-900">Aviso de Stock</p>
+                <p class="text-xs text-slate-600 mt-0.5">Quedan pocas unidades de Agua Mineral en el Kiosco.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: Resumen del Día (Próximas Clases) -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">calendar_clock</span>
+            </div>
+            <h2 class="text-lg font-bold text-slate-900">Clases Próximas</h2>
+          </div>
+          <button class="text-sm font-bold text-green-600 hover:text-green-700 underline" onclick="SQ.go('secreClases'); return false;">Ver cronograma completo</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          
+          <!-- Tarjeta de Clase 1 -->
+          <div class="border border-slate-200 rounded-xl p-4 flex flex-col hover:border-green-300 hover:shadow-md transition-all" onclick="SQ.go('secreClases'); return false;">
+            <div class="flex justify-between items-start mb-3">
+              <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-1 rounded">17:00 hs</span>
+              <span class="text-xs font-semibold text-slate-400 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 60 min</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-lg">Crossfit Avanzado</h3>
+            <p class="text-sm text-slate-500 mb-4">Sala Funcional</p>
+            
+            <div class="flex items-center gap-3 mb-5">
+              <img class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEX43e49Vm9KsK2dypI-Mo1UEJc8_dJs6bRATkOn-7R2MUIMaer2sGovxJzUOn5UXdAzCLgO0vIw9G19busnWVFgXFHIkMKkYGBOIeE_rkBDaWyiLnwEPxZ09-80pPpEbNfT80XbcB0_emicOqlaButQhV9v7Wc-px3TGYuZq_6VVHuqlFR-UF1o6v95ww_81T3E1MTiBoVpdwDG_Jp6_fxX3AHXeJ2foAugZko4rUi7I2rIlCW1mEddbMqTb-4ZQ5w_gKrlWXNlcH" alt="Profesor">
+              <p class="text-sm font-medium text-slate-700">Prof. Marcos Ruiz</p>
+            </div>
+
+            <div class="mt-auto">
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-slate-700">Cupo: 18/20</span>
+                <span class="text-orange-500 font-bold">Casi Lleno</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-orange-400 w-[90%] rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Clase 2 -->
+          <div class="border border-slate-200 rounded-xl p-4 flex flex-col hover:border-green-300 hover:shadow-md transition-all" onclick="SQ.go('secreClases'); return false;">
+            <div class="flex justify-between items-start mb-3">
+              <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-1 rounded">18:00 hs</span>
+              <span class="text-xs font-semibold text-slate-400 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 45 min</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-lg">Pilates Reformer</h3>
+            <p class="text-sm text-slate-500 mb-4">Studio 1</p>
+            
+            <div class="flex items-center gap-3 mb-5">
+              <img class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAShiNGWOFBEfFvN5Lx-_x0vbjYU7sHB_8Zx5_nujZk0sWjs7tRstGTKh3hXVDQLpx1j0ipGUG2ST-n4jy4q5a4_yJJHRQBlUQF0TQBv7YtqPiTRIxSwbJyyaZtBwlI1MUpXbFigZuBIEJpFNxxzMY-Tt6wdVPC_ZNzOqFeQNVr12ycm-RAes75WQttSkuln5aVRgHZiECNuZiYz5RO-H6rqBIfQUXa8ux6ThJM22Bf-gliKcGJxlBhWQERaqDmfxbewcBqoOxyPbnS" alt="Profesor">
+              <p class="text-sm font-medium text-slate-700">Prof. Elena Pastor</p>
+            </div>
+
+            <div class="mt-auto">
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-slate-700">Cupo: 5/10</span>
+                <span class="text-green-600 font-bold">Disponible</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 w-[50%] rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta de Clase 3 -->
+          <div class="border border-slate-200 rounded-xl p-4 flex flex-col hover:border-green-300 hover:shadow-md transition-all" onclick="SQ.go('secreClases'); return false;">
+            <div class="flex justify-between items-start mb-3">
+              <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2 py-1 rounded">19:00 hs</span>
+              <span class="text-xs font-semibold text-slate-400 flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 60 min</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-lg">Zumba Fitness</h3>
+            <p class="text-sm text-slate-500 mb-4">Salón Principal</p>
+            
+            <div class="flex items-center gap-3 mb-5">
+              <img class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp8YXJg0eWdtQmkvniAA-zqVXdolTOZnmVa9k89AEC75hIzpFD597h6p3JTaDQRHipOvrmqTDiPVOIetuUHfK25jwK1CVV025iX_scT0JJj28PkDKwLyX8dnMTbVqNgOPAAKjCjrQEVYr7ZYfBj4elxAeZVj2c3kOJKQWsFGsQk8xYGqC155mYyQ5yA2RxaHMW0H884bZpBkLxtXnEQF_gHpnW3SjvWBbr_M7SakKvReTuf4TX6Ug4ZwEQFJYL_GXbb4lA7A6aXWUV" alt="Profesor">
+              <p class="text-sm font-medium text-slate-700">Prof. Lucía F.</p>
+            </div>
+
+            <div class="mt-auto">
+              <div class="flex justify-between text-xs mb-1">
+                <span class="font-bold text-slate-700">Cupo: 30/30</span>
+                <span class="text-red-500 font-bold">Lleno</span>
+              </div>
+              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-red-500 w-[100%] rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Bottom Nav (Móvil) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 flex justify-around items-center h-16 px-2 sm:px-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] pb-safe">
+    <button class="flex flex-col items-center text-green-600 p-2" onclick="SQ.go('secrePanel'); return false;">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+      <span class="text-[10px] mt-1 font-bold">Panel</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors" onclick="SQ.go('secreClases'); return false;">
+      <span class="material-symbols-outlined">class</span>
+      <span class="text-[10px] mt-1 font-bold">Clases</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors" onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">group</span>
+      <span class="text-[10px] mt-1 font-medium">Alumnos</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors" onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">payments</span>
+      <span class="text-[10px] mt-1 font-medium">Pagos</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors" onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">storefront</span>
+      <span class="text-[10px] mt-1 font-medium">Kiosco</span>
+    </button>
+    <button class="flex flex-col items-center text-slate-400 p-2 hover:text-slate-900 transition-colors" onclick="SQ.toast('Módulo en construcción', 'info'); return false;">
+      <span class="material-symbols-outlined">badge</span>
+      <span class="text-[10px] mt-1 font-medium">Personal</span>
+    </button>
+  </nav>
+
+  <!-- Menú Flotante Configuración -->
+  <div id="settingsMenuDropdown" class="fixed top-20 right-4 lg:right-8 bg-white rounded-xl shadow-lg border border-slate-200 z-50 w-56 opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95" style="visibility: hidden;">
+    <div class="py-2">
+      <button onclick="abrirOpcion()" class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">person</span>
+        <span class="text-body-md">Mi Perfil</span>
+      </button>
+      <button onclick="abrirOpcion()" class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">tune</span>
+        <span class="text-body-md">Preferencias</span>
+      </button>
+      <button onclick="abrirOpcion()" class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">help</span>
+        <span class="text-body-md">Ayuda</span>
+      </button>
+      <button onclick="abrirOpcion()" class="w-full flex items-center gap-md px-4 py-3 text-slate-700 hover:bg-slate-50 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">settings</span>
+        <span class="text-body-md">Configuración</span>
+      </button>
+      <div class="border-t border-slate-100 my-1"></div>
+      <button onclick="SQ.logout();" class="w-full flex items-center gap-md px-4 py-3 text-error hover:bg-error hover:bg-opacity-5 transition-colors text-left">
+        <span class="material-symbols-outlined text-lg">logout</span>
+        <span class="text-body-md">Cerrar Sesión</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="menuOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none transition-opacity duration-200" onclick="cerrarMenuConfiguracion();" style="visibility: hidden; background-color: rgba(0,0,0,0.2);"></div>
+
+</body>
+</html>

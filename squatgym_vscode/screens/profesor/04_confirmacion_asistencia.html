@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SquatGym - Asistencia Guardada</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#596373",
+                      "primary-container": "#22c55e",
+                      "tertiary": "#005ac2",
+                      "on-error-container": "#93000a",
+                      "outline": "#6d7b6c",
+                      "on-surface": "#151c27",
+                      "surface": "#f9f9ff",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "secondary-fixed-dim": "#bdc7d9",
+                      "on-secondary-fixed-variant": "#3d4756",
+                      "inverse-on-surface": "#ebf1ff",
+                      "surface-tint": "#006e2f",
+                      "on-tertiary-container": "#003d88",
+                      "primary-fixed-dim": "#4ae176",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#f9f9ff",
+                      "tertiary-container": "#82abff",
+                      "surface-variant": "#dce2f3",
+                      "primary": "#006e2f",
+                      "on-background": "#151c27",
+                      "background": "#f9f9ff",
+                      "surface-container-high": "#e2e8f8",
+                      "inverse-primary": "#4ae176",
+                      "outline-variant": "#bccbb9",
+                      "on-tertiary-fixed-variant": "#004395",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed": "#001a42",
+                      "secondary": "#555f6f",
+                      "secondary-fixed": "#d9e3f6",
+                      "on-primary-fixed": "#002109",
+                      "surface-container": "#e7eefe",
+                      "secondary-container": "#d6e0f3",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#dce2f3",
+                      "on-secondary-fixed": "#121c2a",
+                      "surface-container-low": "#f0f3ff",
+                      "surface-dim": "#d3daea",
+                      "on-surface-variant": "#3d4a3d",
+                      "primary-fixed": "#6bff8f",
+                      "on-primary-container": "#004b1e",
+                      "tertiary-fixed": "#d8e2ff",
+                      "on-primary-fixed-variant": "#005321",
+                      "inverse-surface": "#2a313d",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "base": "4px",
+                      "xl": "32px",
+                      "3xl": "64px",
+                      "sm": "8px",
+                      "2xl": "48px",
+                      "gutter": "24px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "margin": "32px"
+              },
+              "fontFamily": {
+                      "h2": ["Lexend"],
+                      "body-sm": ["Lexend"],
+                      "label-caps": ["Lexend"],
+                      "body-md": ["Lexend"],
+                      "body-lg": ["Lexend"],
+                      "h3": ["Lexend"],
+                      "h1": ["Lexend"],
+                      "button": ["Lexend"]
+              },
+              "fontSize": {
+                      "h2": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                      "body-sm": ["14px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                      "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                      "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                      "body-lg": ["18px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                      "h3": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                      "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                      "button": ["16px", { "lineHeight": "1", "fontWeight": "500" }]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script src="../../nav.js"></script>
+<script src="../../classStore.js"></script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased flex h-screen overflow-hidden">
+  <!-- Sidebar (Desktop) -->
+  <aside class="hidden lg:flex w-64 h-screen fixed left-0 top-0 z-50 bg-white dark:bg-slate-900 text-sm font-medium border-r border-slate-200 dark:border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.02)] flex-col p-6 space-y-2">
+    <div class="mb-lg px-xs mt-2">
+      <div class="flex items-center gap-sm">
+        <div>
+          <h2 class="text-xl font-bold" style="color:#22C55E;">SquatGym</h2>
+          <p class="text-xs text-slate-500">Portal del Profesor</p>
+        </div>
+      </div>
+    </div>
+    <nav class="flex-1 flex flex-col gap-sm mt-md">
+      <a href="#" onclick="SQ.go('profesorDashboard'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">dashboard</span> Panel
+      </a>
+      <a href="#" onclick="SQ.go('profesorHistorial'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">history</span> Historial de Clases
+      </a>
+      <div class="border-t border-slate-100 my-1"></div>
+      <a href="#" onclick="SQ.toast('🚧 Módulo de Liquidación de Sueldos en desarrollo (Corresponde a RRHH)','info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">payments</span> Mis Liquidaciones
+      </a>
+      <a href="#" onclick="SQ.toast('⚠️ Módulo de Mantenimiento de Equipos fuera de alcance','info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">build</span> Reportar Incidente
+      </a>
+      <a href="#" onclick="SQ.toast('🚧 Seguimiento de rutinas en desarrollo','info'); return false;" class="flex items-center gap-md px-md py-sm rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 active:translate-x-1 duration-150">
+        <span class="material-symbols-outlined">monitoring</span> Fichas de Evolución
+      </a>
+    </nav>
+  </aside>
+<!-- Main Workspace -->
+<div class="flex-1 flex flex-col h-full min-w-0 lg:ml-64">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm flex justify-between items-center h-16 px-6 w-full z-40 shrink-0">
+<!-- Mobile Brand / Menu Toggle (Visible only on small screens) -->
+<div class="md:hidden flex items-center gap-3">
+<span class="material-symbols-outlined text-green-600 dark:text-green-500">menu</span>
+<h1 class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white font-lexend">SquatGym</h1>
+</div>
+<!-- Spacer for alignment on desktop -->
+<div class="hidden md:block w-32"></div>
+<!-- Centered Search -->
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4"><div class="w-64 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">search</span>
+<input class="w-full h-10 pl-10 pr-4 rounded-full bg-gray-50 border border-gray-200 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 font-lexend text-sm transition-all" placeholder="Buscar..." type="text"/>
+</div>
+<button class="dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors p-2 rounded-full relative text-gray-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 border border-gray-200">
+<img alt="Administrator Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUFpBmKBfVQp5TSE_rcd1h9l06lpRtV9ZL6GMxuVX8RxU_SX7ahstv7d4wxvIMUhLEmsTFxZFEpJ0mT3ZI0D9CZiWQjrIxbvbIxVGXxJHv2sRNBiIv3pmF--f4KftgDrc-a9GEGScYQq39ytWgVut-ABu6Wwt6tkaHXVDWbpBTsKY_chViMmY1VpxuCmK_-untKvO9ZbbCF7sxDmrOWLx3p2143BS6Sl2yodMlXqWQQNK9Hs1mbmMrmqnfs24LZH5-EP3FlZcVI9E"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-lg lg:p-2xl flex items-center justify-center bg-background">
+<!-- Success Confirmation Card -->
+<div class="w-full max-w-[640px] bg-surface-container-lowest rounded-xl border border-outline-variant p-xl lg:p-2xl flex flex-col items-center text-center shadow-[0_8px_24px_rgba(31,41,55,0.04)]">
+<!-- Success Icon & Header -->
+<div class="mb-lg flex flex-col items-center">
+<div class="w-20 h-20 bg-primary-container/20 rounded-full flex items-center justify-center mb-md">
+<span class="material-symbols-outlined text-[48px] text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-h2 text-h2 text-on-surface">¡Asistencia guardada con éxito!</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">El registro de la clase se ha actualizado correctamente.</p>
+</div>
+<!-- Session Summary Bento Grid -->
+<div class="w-full grid grid-cols-1 md:grid-cols-2 gap-md text-left mb-xl">
+<!-- Class Details Block -->
+<div class="bg-surface-container-low rounded-lg p-md border border-surface-dim flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">Clase</span>
+<span class="font-h3 text-h3 text-on-surface">CrossFit Avanzado</span>
+<div class="flex items-center gap-2 mt-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="font-body-sm text-body-sm">Carlos M.</span>
+</div>
+</div>
+<!-- Date & Time Block -->
+<div class="bg-surface-container-low rounded-lg p-md border border-surface-dim flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-xs">Fecha y Hora</span>
+<span class="font-h3 text-h3 text-on-surface">Hoy</span>
+<div class="flex items-center gap-2 mt-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="font-body-sm text-body-sm">18:00 - 19:30</span>
+</div>
+</div>
+<!-- Attendance Stats Block -->
+<div class="col-span-1 md:col-span-2 grid grid-cols-3 gap-sm mt-sm">
+<div class="bg-primary-container/10 border border-primary-container/30 rounded-lg py-md px-sm flex flex-col items-center justify-center">
+<span class="font-h2 text-h2 text-primary" id="sq-stat-presentes">10</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-xs uppercase">Presentes</span>
+</div>
+<div class="bg-error-container/30 border border-error-container rounded-lg py-md px-sm flex flex-col items-center justify-center">
+<span class="font-h2 text-h2 text-error" id="sq-stat-ausentes">2</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-xs uppercase">Ausentes</span>
+</div>
+<div class="bg-surface-variant border border-surface-dim rounded-lg py-md px-sm flex flex-col items-center justify-center">
+<span class="font-h2 text-h2 text-on-surface" id="sq-stat-total">12</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-xs uppercase">Total</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="w-full flex flex-col sm:flex-row gap-md">
+<button class="flex-1 bg-primary hover:bg-surface-tint text-on-primary font-button text-button py-[14px] px-lg rounded-lg transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                        Volver al Panel
+                    </button>
+<button class="flex-1 bg-surface-container-lowest border-2 border-outline hover:bg-surface-container-low text-on-surface font-button text-button py-[14px] px-lg rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+                        Ver Resumen de Clase
+                    </button>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+// ── Inyectar datos reales del registro ────────────────────────────────────────
+const estado = SQ.state;
+const store = window.SQClassStore;
+const clase = estado.claseId ? store.getClassById(estado.claseId) : null;
+
+if (estado.presentes !== undefined) {
+  const ausentes = (estado.total || 0) - (estado.presentes || 0);
+  const presentesEl = document.getElementById('sq-stat-presentes');
+  const ausentesEl = document.getElementById('sq-stat-ausentes');
+  const totalEl = document.getElementById('sq-stat-total');
+  if (presentesEl) presentesEl.textContent = estado.presentes;
+  if (ausentesEl) ausentesEl.textContent = ausentes;
+  if (totalEl) totalEl.textContent = estado.total || 0;
+}
+
+if (estado.claseSeleccionada || clase) {
+  // Nombre de la clase en el resumen
+  document.querySelectorAll('.font-h3.text-h3').forEach(el => {
+    if (el.textContent.includes('CrossFit') || el.textContent.includes('Yoga') || el.textContent.includes('HIIT')) {
+      el.textContent = estado.claseSeleccionada || clase?.nombre || el.textContent;
+    }
+  });
+}
+
+// Fecha actual dinámica
+const fechaEl = document.querySelector('.font-h3.text-h3:not([class*="text-primary"])');
+const hoy = new Date().toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+document.querySelectorAll('.font-h3.text-h3').forEach(el => {
+  if (el.textContent === 'Hoy') el.textContent = hoy.charAt(0).toUpperCase() + hoy.slice(1);
+});
+
+// ── Nav ───────────────────────────────────────────────────────────────────────
+document.querySelectorAll('a[href="#"]').forEach(a => {
+  const ic = a.querySelector('.material-symbols-outlined')?.textContent?.trim();
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    if (ic === 'logout') { SQ.logout(); return; }
+    if (ic === 'dashboard') { SQ.go('profesorDashboard'); return; }
+    SQ.toast('No disponible en el demo', 'info');
+  });
+});
+
+// ── Botones de acción ─────────────────────────────────────────────────────────
+document.querySelectorAll('button').forEach(btn => {
+  const txt = btn.textContent.trim();
+  const ic  = btn.querySelector?.('.material-symbols-outlined')?.textContent?.trim();
+
+  if (txt.includes('Volver al Panel') || ic === 'dashboard') {
+    btn.addEventListener('click', () => SQ.go('profesorDashboard'));
+  }
+  if (txt.includes('Ver Resumen') || ic === 'analytics') {
+    btn.addEventListener('click', () => SQ.toast('Resumen no disponible en el demo', 'info'));
+  }
+  if (ic === 'notifications') {
+    btn.addEventListener('click', () => SQ.toast('No hay notificaciones nuevas', 'info'));
+  }
+  if (ic === 'settings') {
+    btn.addEventListener('click', () => SQ.toast('No disponible en el demo', 'info'));
+  }
+});
+
+SQ.toast('Asistencia guardada con éxito ✓', 'success');
+</script>
+</body></html>
