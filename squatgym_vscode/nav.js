@@ -3,6 +3,7 @@
 
   const ROUTES = {
     login: 'screens/01_login.html',
+    error: '00_error.html',
 
     adminPanel: 'screens/administrador/01_panel.html',
     adminDashboard: 'screens/administrador/01_panel.html',
@@ -17,6 +18,7 @@
 
     profesorPanel: 'screens/profesor/profesor_dashboard.html',
     profesorDashboard: 'screens/profesor/profesor_dashboard.html',
+    panelProfesor: 'screens/profesor/profesor_dashboard.html',
     profesorCalendario: 'screens/profesor/02_calendario.html',
     profesorAsistencia: 'screens/profesor/profesor_asistencia.html',
     profesorHistorial: 'screens/profesor/profesor_historial.html',

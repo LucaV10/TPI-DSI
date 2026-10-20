@@ -644,11 +644,11 @@
               <div class="flex flex-wrap items-center gap-3 text-sm font-medium text-slate-600">
                 <div class="flex items-center gap-1.5 bg-slate-100/80 px-2.5 py-1 rounded-lg border border-slate-200/50">
                   <span class="material-symbols-outlined text-[16px] text-slate-500">person</span>
-                  <span>${prof.nombre}</span>
+                  <span>${prof?.nombre || 'Profesor no asignado'}</span>
                 </div>
                 <div class="flex items-center gap-1">
                   <span class="material-symbols-outlined text-[16px] text-slate-400">location_on</span>
-                  ${c.sala}
+                  ${c.sala || 'Salón Principal'}
                 </div>
               </div>
             </div>
@@ -692,14 +692,14 @@
       // Populate View Mode
       document.getElementById('detalleNombre').innerText = c.nombre;
       document.getElementById('detalleHorario').innerText = `${c.horaInicio} - ${c.horaFin}`;
-      document.getElementById('detalleSala').innerText = c.sala;
+      document.getElementById('detalleSala').innerText = c.sala || 'Salón Principal';
 
       // Populate Edit Mode inputs (Requerimiento Estrella)
       document.getElementById('editClassId').value = c.id;
       document.getElementById('editInputNombre').value = c.nombre;
       document.getElementById('editInputInicio').value = c.horaInicio;
       document.getElementById('editInputFin').value = c.horaFin;
-      document.getElementById('editInputSala').value = c.sala;
+      document.getElementById('editInputSala').value = c.sala || 'Salón Principal';
       document.getElementById('editInputCupo').value = c.cupo;
 
       // Populate Attendance
